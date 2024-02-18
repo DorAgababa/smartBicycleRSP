@@ -3,7 +3,6 @@ rounds = 0
 roundsSec = 0 
 radius = 0.25
 
-
 def main():
     startTime=time.time()
     time.sleep(3)
