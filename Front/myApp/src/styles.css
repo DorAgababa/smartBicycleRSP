@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Assistant:wght@200;300;400;500;600;700;800&display=swap');
+
+:root {
+  font-family: 'Assistant', sans-serif !important;
+  line-height: 1.5;
+
+}
+
+html, body {
+  height: 100dvh !important;
+  width: 100dvw !important;
+  margin: 0;
+  overflow: hidden; /* Prevent horizontal overflow */
+  font-family: 'Assistant', sans-serif !important;
+}
+
+button {
+  transition: background-color 0.5s linear, transform 0.3s linear;
+  font-family: 'Assistant', sans-serif !important;
+}
+
+.buttonLight,.buttonSemiDark,.buttonDark,.buttonSemiLight,.delete{
+  transition-duration: 0.3s !important;
+}
+
+.buttonLight {
+  background-color: #FFFFFF !important;
+  transform: scale(0.98);
+  color: black!important;
+}
+.buttonSemiDark {
+  background-color: #a675ee !important;
+  transform: scale(0.98);
+  color: white !important;
+}
+.buttonDark {
+  background-color: #42467e !important;
+  transform: scale(0.98);
+  color: white !important;
+}
+.buttonSemiLight {
+  background-color: #f88f3b !important;
+  transform: scale(0.98);
+  color: black !important;
+}
+
+.buttonLight:hover {
+  background-color: #f88f3b !important;
+  transform: scale(0.98);
+  color: black;
+}
+.buttonSemiDark:hover {
+  background-color: #42467e !important;
+  transform: scale(0.98);
+  color: white;
+}
+.buttonDark:hover {
+  background-color: #a675ee !important;
+  transform: scale(0.98);
+}
+.buttonSemiLight:hover {
+  background-color: #FFFFFF !important;
+  transform: scale(0.98);
+  color: black;
+}
+
+.delete:hover {
+    color: rgb(182, 16, 16) !important;
+  transform: scale(0.98);
+  color: black;
+}
+
+.hoverEffect{
+  transition: background-color 0.3s linear, transform 0.3s linear,opacity 0.3s linear;
+
+}
+
+.hoverEffect:hover {
+  transform: scale(0.93);
+  opacity: 0.95;
+}
+
+.startButton {
+  animation: pulse 1s infinite alternate;
+  cursor: pointer;
+}
+
+.startButton:hover {
+  animation: pulse-hover 2s infinite alternate;
+}
+
+@keyframes pulse {
+  100% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes pulse-hover {
+  100% {
+    transform: scale(0.8);
+  }
+}
+
+a{
+  text-decoration: none;
+}

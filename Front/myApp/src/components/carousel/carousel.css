@@ -1,0 +1,24 @@
+.carousel-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .carousel-slide {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .carousel-content {
+    max-width: 80%;
+    margin: 0 auto;
+  }
+  
+  .carousel-slide img {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  

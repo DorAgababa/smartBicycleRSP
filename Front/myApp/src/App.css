@@ -1,0 +1,13 @@
+@keyframes slideLeft {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+  
+  /* Apply the animation to elements with the .disappear class */
+  .disappear {
+    animation: slideLeft 1s forwards;
+  }
