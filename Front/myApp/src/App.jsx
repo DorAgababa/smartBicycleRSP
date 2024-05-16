@@ -15,6 +15,13 @@ import { connectWebSocket, resetCounter } from './webSocket.js';
 let obj
 let current_page =(<Pages.summary/>)
 
+export function ClearObjBox(){
+  const domNode = document.getElementById('obj');
+  obj=""
+  const root = createRoot(domNode);
+  root.render()
+}
+
 export async function SetAlert(title,description,state=State.neutral) {
   const domNode = document.getElementById('obj');
   obj=""

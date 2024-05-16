@@ -156,3 +156,45 @@ export async function slideAllElementToLeft(color) {
 
   await Sleep(0.9)
 }
+
+export function calculateSpeed(cycles, wheelSize, timeInSeconds) {
+  // Convert wheel size from cm to meters
+  let wheelSizeMeters = wheelSize / 100;
+  // Calculate distance covered in one cycle (circumference of the wheel)
+  let distancePerCycle = Math.PI * wheelSizeMeters;
+  // Calculate total distance covered
+  let totalDistance = cycles * distancePerCycle;
+  // Calculate speed in meters per second
+  let speedMetersPerSecond = totalDistance / timeInSeconds;
+  // Convert speed to kilometers per hour
+  let speedKmPerHour = speedMetersPerSecond * 3.6;
+  if(speedKmPerHour>1000) return 0
+  return speedKmPerHour;
+}
+
+export function calculatePace(totalTimeInSeconds, totalDistanceInKm) {
+  let paceInSecondsPerKm = totalTimeInSeconds / totalDistanceInKm;
+  let paceInHours = paceInSecondsPerKm / 3600; // Convert seconds to hours
+  let minutes = Math.floor((paceInHours * 60) % 60);
+  let hours = Math.floor(paceInHours);
+  let formattedPace = `${hours < 10 ? '0' : ''}${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
+
+  return formattedPace;
+}
+
+export function calculateCaloriesBurned(weightKg, workoutTimeHours, averageSpeedKph) {
+  let metValue = determineMetValue(averageSpeedKph);
+  let caloriesBurned = metValue * weightKg * workoutTimeHours;
+
+  return caloriesBurned;
+}
+
+function determineMetValue(averageSpeedKph) {
+  if (averageSpeedKph < 15) {
+      return 6; // Moderate cycling
+  } else if (averageSpeedKph >= 15 && averageSpeedKph < 20) {
+      return 8; // Vigorous cycling
+  } else {
+      return 10; // High-intensity cycling
+  }
+}

@@ -22,7 +22,7 @@ const AlertCustome = ({title,text,state}) => {
     const [open, setOpen] = useState(true);
   return (
     <>
-    <Box  sx={{zIndex:'5', display: 'flex', gap: 2, width: '100%', flexDirection: 'column',position:'absolute',alignItems:'center',top:0,left:0}}>
+    <Box  sx={{zIndex:'5', display: 'flex', gap: 2, width: '100%', flexDirection: 'column',position:'absolute',alignItems:'center',top:"10vh",left:0}}>
         <Collapse in={open}>
         <Alert
           
@@ -38,7 +38,7 @@ const AlertCustome = ({title,text,state}) => {
         >
           <div>
             <div>{title}</div>
-            <Typography level="body-sm" color={state.color}>
+            <Typography level="body-sm" color={state.color} textAlign={'center'}>
               {text}
             </Typography>
           </div>
@@ -52,7 +52,7 @@ const AlertCustome = ({title,text,state}) => {
             left: 0,
             right: 0,
             borderEndEndRadius: 25,
-          }}
+          }} 
         />
         </Alert>
         </Collapse>

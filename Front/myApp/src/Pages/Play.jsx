@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { Button } from '@mui/material';
 import WorkoutCard from '../components/WorkoutCard';
 import { Colors, Pages } from '../data/constants';
-import { Sleep, slideAllElementToLeft } from '../utils';
-import { setPage } from '../App';
+import { Sleep, calculateCaloriesBurned, calculatePace, calculateSpeed, slideAllElementToLeft } from '../utils';
+import { ClearObjBox, setPage } from '../App';
 import CheerUp from '../components/CheerUp';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import VolumeMuteIcon from '@mui/icons-material/VolumeMute';
@@ -11,10 +11,15 @@ import ssMus from '../music/daa.wav';
 import AchivmentsBar from '../components/achivmentsBar';
 import { State } from '../components/Alert';
 
-let achivments = [];
+export let achivments = [];
+export let totalCycles = 0;
+export let speed = 0;
+export let pace =0;
+export let calories = 0;
+export let totalTime = 0;
 
 function Play() {
-  let distances = [5,10,20,30]
+  let distances = [5,15,25,40,1000 ]
   const [time, setTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const intervalRef = useRef(null);
@@ -31,7 +36,7 @@ function Play() {
     }
     setIsRunning(!isRunning);
   };
-  
+
   const stopStopper = () => {
     clearInterval(intervalRef.current);
     setIsRunning(false);
@@ -41,7 +46,12 @@ function Play() {
     const seconds = `0${Math.floor((time / 1000) % 60)}`.slice(-2);
     const minutes = `0${Math.floor((time / 1000 / 60) % 60)}`.slice(-2);
     const hours = `0${Math.floor((time / 1000 / 60 / 60) % 24)}`.slice(-2);
+    totalCycles++;
+    speed = calculateSpeed(totalCycles,"15",time / 1000)
+    pace = calculatePace(time / 1000,totalCycles/1000)
+    calories = calculateCaloriesBurned(80,(time / 1000 / 60 / 60) % 24 ,speed)
     if(seconds - distances[achivments.length] ==0 ){
+      CheerUp(`Well done for doing ${distances[achivments.length]} Meters !`,"")
       achivments.push(State.warning.color)
       currentAchivment = 0.01
       console.log(achivments)
@@ -50,11 +60,13 @@ function Play() {
     {
       currentAchivment = (seconds / distances[achivments.length])*100
     }
+    totalTime = `${hours}:${minutes}:${seconds}`;
     return `${hours}:${minutes}:${seconds}`;
   };
 
   useEffect(() => {
-    startStopper(); 
+    totalCycles=0;
+    startStopper();
     setTime(0)
     achivments=[]
     return () => clearInterval(intervalRef.current); // Clean up by clearing the interval when the component unmounts
@@ -67,18 +79,18 @@ function Play() {
       <div style={{ top: '20px', right: '20px', position: 'absolute',alignItems:'center', display:'inline-flex'}}>
         <Button className='buttonLight' sx={{marginLeft: '10px'}} onClick={e=>{e.preventDefault();setIsMuted(!isMuted)}}>{isMuted ? <VolumeOffIcon/> : <VolumeMuteIcon/>}</Button>
         <Button className='buttonLight' sx={{marginLeft: '10px'}} onClick={(e)=>{e.preventDefault();isRunning ? stopStopper() : startStopper()}}>{isRunning ? 'Stop' : 'Start'}</Button>
-        <Button className='buttonLight' sx={{marginLeft: '10px'}} onClick={async (e)=>{e.preventDefault();await slideAllElementToLeft(Colors.SemiDarkColor);setPage(Pages.summary)}}>End workout</Button>
+        <Button className='buttonLight' sx={{marginLeft: '10px'}} onClick={async (e)=>{e.preventDefault();ClearObjBox();stopStopper();await slideAllElementToLeft(Colors.SemiDarkColor);setPage(Pages.summary)}}>End workout</Button>
       </div>
 
       <div>
-      <WorkoutCard title={"Distance till next achivment"} percent={currentAchivment+0.01} describe={`${(distances[achivments.length]-(Math.floor((time / 1000) % 60))).toFixed(1)}m`} color={'buttonSemiLight'} SX={{width: '170px'}} />
       </div>
 
-      <div style={{position: 'absolute', left: '10vw', bottom: "25px", width: '80vw', display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-        <WorkoutCard title={"Total distance"} percent={0} describe={'stringTime'} color={'buttonSemiLight'} SX={{width: '170px', height: '120px'}} />
-        <WorkoutCard title={"Speed"} percent={0} describe={'stringTime'} color={'buttonSemiLight'} SX={{width: '170px', height: '120px'}} />
-        <WorkoutCard title={"Total Pase"} percent={0} describe={'stringTime'} color={'buttonSemiLight'} SX={{width: '170px', height: '120px'}} />
-        <WorkoutCard title={"Calories"} percent={0} describe={'stringTime'} color={'buttonSemiLight'} SX={{width: '170px', height: '120px'}} />
+      <div style={{position: 'absolute', left: '10vw', bottom: "25px", width: '80vw', display: 'flex', flexDirection: 'row', justifyContent: 'space-between',alignItems:'center'}}>
+      <WorkoutCard title={"Distance till next achivment"} percent={currentAchivment+0.01} describe={`${(distances[achivments.length]-(Math.floor((time / 1000) % 60))).toFixed(1)}m`} color={'buttonSemiLight'} SX={{width: '170px'}} />
+        <WorkoutCard title={"Total distance"} percent={0} describe={`${totalCycles} m`} color={'buttonSemiLight'} SX={{width: '170px', height: '120px'}} />
+        <WorkoutCard title={"Speed"} percent={0} describe={`${speed.toFixed(1)} Km/H`} color={'buttonSemiLight'} SX={{width: '170px', height: '120px'}} />
+        <WorkoutCard title={"Total Pase"} percent={0} describe={`${pace} a km`} color={'buttonSemiLight'} SX={{width: '170px', height: '120px'}} />
+        <WorkoutCard title={"Calories"} percent={0} describe={`${calories.toFixed(1)} Cal`} color={'buttonSemiLight'} SX={{width: '170px', height: '120px'}} />
       </div>
     </div>
   )
