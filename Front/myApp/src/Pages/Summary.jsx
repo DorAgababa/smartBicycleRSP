@@ -78,7 +78,7 @@ function Summary() {
       <div style={{position: 'absolute', left: '10vw', bottom: "15vh", width: '80vw', display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>
       <div style={{position:'relative',display:'flex',justifyContent:'center'}}>
         <div style={{fontFamily:"'Assistant', sans-serif" ,  fontSize:'20px',position:'absolute',left:'20px',top:'15px',zIndex:'2  ',fontWeight:'600'}}>Speed summary</div>
-      <LineChart
+      {/* <LineChart
       xAxis={[{ 
          label: 'time (M)',
          dataKey: 'time',
@@ -97,7 +97,7 @@ function Summary() {
       width={700}
       height={300}
       sx={ {background: Colors.LightColor, borderRadius: '20px', padding: '5px 0 5px 0'}}
-    />
+    /> */}
       </div>
     <div style={{ alignItems:'center', display:'flex'}}>
         <Button className='buttonSemiLight' sx={{fontSize: '18px',fontWeight:'600', marginRight:'10px'}} onClick={async (e)=>{e.preventDefault();await slideAllElementToLeft(Colors.DarkColor);resetCounter();setPage(Pages.play)}}>Restart Workout</Button>

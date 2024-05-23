@@ -10,6 +10,7 @@ import VolumeMuteIcon from '@mui/icons-material/VolumeMute';
 import ssMus from '../music/daa.wav';
 import AchivmentsBar from '../components/achivmentsBar';
 import { State } from '../components/Alert';
+import { connectWebSocket, pauseCounter, releaseCounter, resetCounter } from '../webSocket';
 
 export let achivments = [];
 export let totalCycles = 0;
@@ -17,6 +18,7 @@ export let speed = 0;
 export let pace =0;
 export let calories = 0;
 export let totalTime = 0;
+let socket 
 
 function Play() {
   let distances = [5,15,25,40,1000 ]
@@ -30,6 +32,7 @@ function Play() {
       clearInterval(intervalRef.current);
     } else {
       const startTime = Date.now() - time;
+      releaseCounter(socket);
       intervalRef.current = setInterval(() => {
         setTime(Date.now() - startTime);
       }, 1000);
@@ -39,6 +42,7 @@ function Play() {
 
   const stopStopper = () => {
     clearInterval(intervalRef.current);
+    pauseCounter(socket);
     setIsRunning(false);
   };
 
@@ -46,11 +50,11 @@ function Play() {
     const seconds = `0${Math.floor((time / 1000) % 60)}`.slice(-2);
     const minutes = `0${Math.floor((time / 1000 / 60) % 60)}`.slice(-2);
     const hours = `0${Math.floor((time / 1000 / 60 / 60) % 24)}`.slice(-2);
-    totalCycles++;
     speed = calculateSpeed(totalCycles,"15",time / 1000)
     pace = calculatePace(time / 1000,totalCycles/1000)
     calories = calculateCaloriesBurned(80,(time / 1000 / 60 / 60) % 24 ,speed)
-    if(seconds - distances[achivments.length] ==0 ){
+    console.log(totalCycles)
+    if(totalCycles - distances[achivments.length] <= 0 ){
       CheerUp(`Well done for doing ${distances[achivments.length]} Meters !`,"")
       achivments.push(State.warning.color)
       currentAchivment = 0.01
@@ -66,6 +70,11 @@ function Play() {
 
   useEffect(() => {
     totalCycles=0;
+    socket = connectWebSocket();
+    socket.onmessage = function(event) {
+      totalCycles = JSON.parse(event.data).data; 
+  };
+    resetCounter(socket);
     startStopper();
     setTime(0)
     achivments=[]
@@ -86,7 +95,7 @@ function Play() {
       </div>
 
       <div style={{position: 'absolute', left: '10vw', bottom: "25px", width: '80vw', display: 'flex', flexDirection: 'row', justifyContent: 'space-between',alignItems:'center'}}>
-      <WorkoutCard title={"Distance till next achivment"} percent={currentAchivment+0.01} describe={`${(distances[achivments.length]-(Math.floor((time / 1000) % 60))).toFixed(1)}m`} color={'buttonSemiLight'} SX={{width: '170px'}} />
+      <WorkoutCard title={"Distance till next achivment"} percent={currentAchivment+0.01} describe={`${distances[achivments.length]-totalCycles}m`} color={'buttonSemiLight'} SX={{width: '170px'}} />
         <WorkoutCard title={"Total distance"} percent={0} describe={`${totalCycles} m`} color={'buttonSemiLight'} SX={{width: '170px', height: '120px'}} />
         <WorkoutCard title={"Speed"} percent={0} describe={`${speed.toFixed(1)} Km/H`} color={'buttonSemiLight'} SX={{width: '170px', height: '120px'}} />
         <WorkoutCard title={"Total Pase"} percent={0} describe={`${pace} a km`} color={'buttonSemiLight'} SX={{width: '170px', height: '120px'}} />

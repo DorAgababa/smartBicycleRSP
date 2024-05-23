@@ -11,6 +11,7 @@ import { Button } from '@mui/material';
 import ContainerBox from './components/ContainerBox';
 import Start from './Pages/Start';
 import { connectWebSocket, resetCounter } from './webSocket.js';
+import { totalCycles } from './Pages/Play.jsx';
 
 let obj
 let current_page =(<Pages.summary/>)
@@ -48,11 +49,6 @@ export function setPage(Page) {
 }
 
 function App() {
-
-  useEffect(() => {
-    connectWebSocket();
-  }, []);
-
 
   return (
     <>

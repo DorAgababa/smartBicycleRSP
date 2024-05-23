@@ -1,48 +1,54 @@
-// websocketModule.js
-let ws;
-let counter = 0;
-let intervalId;
-
 function connectWebSocket() {
-  ws = new WebSocket('ws://localhost:3000');
+  let socket = new WebSocket("ws://localhost:3000");
 
-  ws.onopen = () => {
-    console.log('Connected to server');
-    startSendingData();
+  socket.onopen = function(event) {
+      console.log("WebSocket is open now.");
   };
 
-  ws.onmessage = event => {
-    const jsonData = JSON.parse(event.data);
-    counter = jsonData.data;
-    console.log('Counter Value:', counter);
+  socket.onmessage = function(event) {
+      try {
+          const messageObj = JSON.parse(event.data);
+          const number = messageObj.data;  // Extract the number
+          console.log('Server says: ' + number); // Or update the UI accordingly
+      } catch (e) {
+          console.error('Error parsing JSON:', e);
+      }
   };
 
-  ws.onclose = () => {
-    console.log('Connection closed');
-    clearInterval(intervalId);
+  socket.onclose = function(event) {
+      console.log("WebSocket is closed now.");
   };
 
-  ws.onerror = error => {
-    console.error('WebSocket error:', error);
+  socket.onerror = function(error) {
+      console.error("WebSocket error: " + error);
   };
+
+  return socket;
 }
 
-function startSendingData() {
-  intervalId = setInterval(() => {
-    counter++;
-    const data = { data: counter };
-    if (ws.readyState === WebSocket.OPEN) {
-      ws.send(JSON.stringify(data));
-    }
-  }, 1000);
-}
-
-function resetCounter() {
-  counter = 0;
-  const data = { data: counter, reset: true }; // Include a flag to indicate reset
-  if (ws.readyState === WebSocket.OPEN) {
-    ws.send(JSON.stringify(data)); // Send reset message to the server
+function resetCounter(socket) {
+  if (socket && socket.readyState === WebSocket.OPEN) {
+      socket.send("reset");
+  } else {
+      console.log("WebSocket is not open.");
   }
 }
 
-export { connectWebSocket, resetCounter };
+function pauseCounter(socket) {
+  if (socket && socket.readyState === WebSocket.OPEN) {
+      socket.send("hold");
+  } else {
+      console.log("WebSocket is not open.");
+  }
+}
+
+function releaseCounter(socket) {
+  if (socket && socket.readyState === WebSocket.OPEN) {
+      socket.send("release");
+  } else {
+      console.log("WebSocket is not open.");
+  }
+}
+
+
+export { connectWebSocket, resetCounter, pauseCounter, releaseCounter };
