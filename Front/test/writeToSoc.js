@@ -6,7 +6,7 @@ let counter = 0; // Move counter variable declaration outside of the connection 
 
 wss.on('connection', ws => {
   console.log('Client connected');
-
+  counter = 0
   const interval = setInterval(() => {
     counter++;
     const data = { data: counter };

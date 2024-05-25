@@ -6,9 +6,9 @@ import ModalClose from '@mui/joy/ModalClose';
 import ModalDialog from '@mui/joy/ModalDialog';
 import DialogTitle from '@mui/joy/DialogTitle';
 import DialogContent from '@mui/joy/DialogContent';
-import UploadButton from './uploadButton';
+import UploadButton from './UploadButton';
 import { getLanguage } from '../utils';
-import ImageUploadView from './imageUploadView';
+import ImageUploadView from './ImageUploadView';
 
 const tmp = [
   'https://images.unsplash.com/photo-1502657877623-f66bf489d236',
