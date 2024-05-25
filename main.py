@@ -3,13 +3,14 @@ import socket
 import threading
 import time
 from gpiozero import Button
+server_connection = None
+socket_connected = False
 
 # GPIO pin connected to the magnetic sensor that count number of rounds
 MAGNETIC_SENSOR_PIN = 2
 rounds = 0  # describe the total rounds done till now
 hold_flag = False  # Flag to indicate whether to count rounds or not
 lock = threading.Lock()  # Lock for synchronization
-startTime = time.time()
 
 def intterupt_handler_magnetic_sensor():
     global rounds
@@ -44,29 +45,42 @@ def unset_hold_flag():
 
 # Function to send rounds count to client socket
 def send_rounds_count():
-    global rounds
-    try:
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            s.connect(('localhost', 3000))
-            s.sendall(bytes(str(rounds), 'utf-8'))
-    except Exception as e:
-        print("Error sending rounds count:", e)
+    global rounds,server_connection,socket_connected
+    if socket_connected and server_connection:
+        try:
+            server_connection.sendall(bytes(str(rounds), 'utf-8'))
+        except Exception as e:
+            print("Error sending rounds count,socket reset/closed:", e)
+            socket_connected = False
+    else:
+        print("waiting for app to be connected")
 
-# Function to handle client connections
+
+# Function to handle client connections, when connection is done , recv will raise an exception that will end this function that will end this thread
 def handle_client(conn, addr):
+    global socket_connected
     with conn:
         print('Connected by', addr)
         while True:
-            data = conn.recv(1024)
-            if not data:
+            try:
+                data = conn.recv(1024)
+                if not data:
+                    break
+                message = data.decode('utf-8').strip()
+                if message == "reset":
+                    reset_rounds()
+                elif message == "hold":
+                    set_hold_flag()
+                elif message == "release":
+                    unset_hold_flag()
+            except ConnectionResetError:
+                print("Connection with", addr, "was reset.")
+                socket_connected = False
                 break
-            message = data.decode('utf-8').strip()
-            if message == "reset":
-                reset_rounds()
-            elif message == "hold":
-                set_hold_flag()
-            elif message == "release":
-                unset_hold_flag()
+            except Exception as e:
+                print("failed to recieve data, due to:", e)
+                socket_connected = False
+                break
 
 # Function to nicely exit the program
 def exit_program_gracefully():
@@ -91,13 +105,16 @@ magnetic_sensor = setup_magnetic_sensor()
 
 # Set up socket server
 def start_server():
+    global socket_connected,server_connection
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
         server_socket.bind(('localhost', 3000))
         server_socket.listen()
         print("Server listening on port 3000...")
         while True:
             conn, addr = server_socket.accept()
-            threading.Thread(target=handle_client, args=(conn, addr)).start()
+            server_connection = conn
+            socket_connected = True
+            threading.Thread(target=handle_client, args=(server_connection, addr)).start()
 
 # Entry point
 if __name__ == "__main__":
