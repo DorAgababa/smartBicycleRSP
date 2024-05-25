@@ -14,94 +14,47 @@ import startImg from '../images/start_button.png'
 import WorkoutCard from '../components/WorkoutCard';
 import { LineChart } from '@mui/x-charts/LineChart';
 import { resetCounter } from '../webSocket';
-import { calories, pace, totalCycles, totalTime } from './Play';
-
-const keyToLabel = {
-  AVGspeed: 'avgSpeed',
-  isRunning: 'Is Running',
-  time:"time"
-};
-
-const results = [
-  {
-    time: "00:30",
-    AVGspeed: 11.2,
-    isRunning: 0,
-  },
-  {
-    time: "00:30",
-    AVGspeed: 11.2,
-    isRunning: 20,
-  },
-  {
-    time: "01:00",
-    AVGspeed: 14.2,
-    isRunning: 20,
-  },
-  {
-    time: "01:30",
-    AVGspeed: 13.2,
-    isRunning: 0,
-  },
-  {
-    time: "02:00",
-    AVGspeed: 4.2,
-    isRunning: 0,
-  },
-  {
-    time: "02:30",
-    AVGspeed: 11.2,
-    isRunning: 0,
-  },]
-
-  const stackStrategy = {
-    stack: 'total',
-    area: true,
-    stackOffset: 'none', // To stack 0 on top of others
-  };
-
-  const colors = {
-    AVGspeed: 'lightgreen',
-    isRunning: 'orange',
-  };
+import { calories, highestSpeed, pace, speedArray, totalCycles, totalTime } from './Play';
+import { Typography } from '@mui/joy';
 
 function Summary() {
 
   return (
     <div className='content' style={{left:0,top:0,display: 'flex' ,  flexDirection:"column",  justifyContent:'center',    alignItems:'center',backgroundColor:Colors.SemiDarkColor, width:"100vw",height:"100vh"}}>
       <div style={{position: 'absolute', left: '10vw', top: "20vh", width: '80vw', display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-        <WorkoutCard title={"Total time"} percent={0} describe={`${totalTime}`} color={'buttonLight'} SX={{width: '250px', height: '120px'}} />
-        <WorkoutCard title={"Total distance"} percent={0} describe={`${totalCycles/1000} Km`} color={'buttonLight'} SX={{width: '250px', height: '120px'}} />
-        <WorkoutCard title={"Total Pase"} percent={0} describe={`${pace} Km/H`} color={'buttonLight'} SX={{width: '250px', height: '120px'}} />
-        <WorkoutCard title={"Total calories Burned"} percent={0} describe={`${calories.toFixed(1)} Cal`} color={'buttonLight'} SX={{width: '250px', height: '120px'}} />
+        <WorkoutCard title={"Total time"} percent={0} describe={`${totalTime}`} color={'buttonLight'} SX={{width: '250px', height: '100px'}} />
+        <WorkoutCard title={"Total distance"} percent={0} describe={`${totalCycles/1000} Km`} color={'buttonLight'} SX={{width: '250px', height: '100px'}} />
+        <WorkoutCard title={"Total Pase"} percent={0} describe={`${pace} Km/H`} color={'buttonLight'} SX={{width: '250px', height: '100px'}} />
+        <WorkoutCard title={"Total calories Burned"} percent={0} describe={`${calories.toFixed(1)} Cal`} color={'buttonLight'} SX={{width: '250px', height: '100px'}} />
       </div>
       <div style={{position: 'absolute', left: '10vw', bottom: "15vh", width: '80vw', display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>
-      <div style={{position:'relative',display:'flex',justifyContent:'center'}}>
-        <div style={{fontFamily:"'Assistant', sans-serif" ,  fontSize:'20px',position:'absolute',left:'20px',top:'15px',zIndex:'2  ',fontWeight:'600'}}>Speed summary</div>
-      {/* <LineChart
-      xAxis={[{ 
-         label: 'time (M)',
-         dataKey: 'time',
-         valueFormatter: (value) => value.toString(), }]}
-
-      yAxis={[{ label: 'Speed (Km/H)', }]}
-
-      series={Object.keys(keyToLabel).map((key) => ({
-        dataKey: key,
-        label: keyToLabel[key],
-        color: colors[key],
-        ...stackStrategy,
-      }))}
-      
-      dataset={results}
-      width={700}
+      <div style={{position:'relative',display:'flex',justifyContent:'center',flexDirection:'column',paddingTop:'15px',background: Colors.LightColor, borderRadius: '20px'}}>
+        <Typography sx={{textAlign:'center'}} level="title-md">Workout Graph</Typography>
+      <LineChart
+      series={[
+        {
+          data: speedArray.map((e) => e<2?0:highestSpeed),
+          label: 'exercising',
+          color:'purple',
+          area: true,
+          valueFormatter: (value) => value<2?"Break": "Exercising",
+        },
+        {
+          data: speedArray,
+          label: 'Speed',
+          color:'pink',
+          valueFormatter: (value) => value.toFixed(1).toString() + " Km/H",
+        },
+      ]}
+      xAxis = {[{ data: speedArray.map((_, index) => index + 1), scaleType: 'linear' }]}
+      width={600}
       height={300}
       sx={ {background: Colors.LightColor, borderRadius: '20px', padding: '5px 0 5px 0'}}
-    /> */}
+    />
       </div>
-    <div style={{ alignItems:'center', display:'flex'}}>
-        <Button className='buttonSemiLight' sx={{fontSize: '18px',fontWeight:'600', marginRight:'10px'}} onClick={async (e)=>{e.preventDefault();await slideAllElementToLeft(Colors.DarkColor);resetCounter();setPage(Pages.play)}}>Restart Workout</Button>
-        <Button className='buttonSemiLight' sx={{fontSize: '18px',fontWeight:'600'}} onClick={async (e)=>{e.preventDefault();await slideAllElementToLeft(Colors.DarkColor);setPage(Pages.start)}}>End</Button>
+    <div style={{ alignItems:'center', display:'flex', flexDirection:'column',justifyContent:'center'}}>
+        <Button className='buttonSemiLight' sx={{fontSize: '16px',fontWeight:'600', marginBottom:'10px'}} onClick={async (e)=>{e.preventDefault();await slideAllElementToLeft(Colors.DarkColor);resetCounter();setPage(Pages.play)}}>Restart Workout</Button>
+        <Button className='buttonSemiLight' sx={{fontSize: '16px',fontWeight:'600'}} onClick={async (e)=>{e.preventDefault();await slideAllElementToLeft(Colors.DarkColor);setPage(Pages.start)}}>End</Button>
       </div>
 
       </div>
