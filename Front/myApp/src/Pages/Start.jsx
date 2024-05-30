@@ -11,10 +11,22 @@ import { Button } from '@mui/material';
 import { SetAlert, setPage } from '../App';
 import { ShowPop } from '../App';
 import startImg from '../images/start_button.png'
+import { connectWebSocket, resetCounter } from '../webSocket';
+
+export let socket = null;
+
 function Start() {
   const [originalImage, setOriginalImage] = useState("");
+  useEffect(() => {
+    let cycle = 0;
+    socket = connectWebSocket();
+    resetCounter(socket);
+    socket.onmessage = function(event) {
+      cycle = JSON.parse(event.data).data; 
+      console.log(cycle)
+  };
+})
 
-{/* <Button onClick={(e)=>{e.preventDefault();SetAlert("Dor is gay","really!")}}>Hey</Button> */}
   return (
     <div className='content' style={{left:0,top:0,display: 'flex' ,  flexDirection:"column",  justifyContent:'center',    alignItems:'center',backgroundColor:Colors.SemiDarkColor, width:"100vw",height:"100vh"}}>
         <img className="startButton" src={startImg} style={{width:"20%", borderRadius:"70%"}}/>

@@ -14,7 +14,7 @@ import { connectWebSocket, resetCounter } from './webSocket.js';
 import { totalCycles } from './Pages/Play.jsx';
 
 let obj
-let current_page =(<Pages.summary/>)
+let current_page =(<Pages.start/>)
 
 export function ClearObjBox(){
   const domNode = document.getElementById('obj');

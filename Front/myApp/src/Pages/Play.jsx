@@ -11,6 +11,7 @@ import ssMus from '../music/daa.wav';
 import AchivmentsBar from '../components/achivmentsBar';
 import { State } from '../components/Alert';
 import { connectWebSocket, pauseCounter, releaseCounter, resetCounter } from '../webSocket';
+import { socket } from './Start';
 
 export let achivments = [];
 export let totalCycles = 0;
@@ -20,8 +21,7 @@ export let calories = 0;
 export let totalTime = 0;
 export let highestSpeed = 0;
 export let speedArray = [0];
-
-let socket 
+let nextAchivmentDistance = 0;
 
 function Play() {
   let distances = [5,15,25,40,1000 ]
@@ -59,9 +59,8 @@ function Play() {
     if(seconds%10 == 0)speedArray.push(speed)
     pace = calculatePace(time / 1000,totalCycles/1000)
     calories = calculateCaloriesBurned(80,(time / 1000 / 60 / 60) % 24 ,speed)
-    console.log("asd" , totalCycles - distances[achivments.length])
 
-    if((totalCycles - distances[achivments.length]) <= 0){
+    if((totalCycles - distances[achivments.length]) == 0){
       CheerUp(`Well done for doing ${distances[achivments.length]} Meters !`,"")
       passedDistanceAchivemnts += distances[achivments.length]
       achivments.push(State.warning.color)
@@ -71,13 +70,13 @@ function Play() {
     {
       currentAchivment = (totalCycles / distances[achivments.length])*100
     }
+    nextAchivmentDistance = Math.abs((totalCycles - distances[achivments.length]))
     totalTime = `${hours}:${minutes}:${seconds}`;
     return `${hours}:${minutes}:${seconds}`;
   };
 
   useEffect(() => {
     totalCycles=0;
-    socket = connectWebSocket();
     socket.onmessage = function(event) {
       totalCycles = JSON.parse(event.data).data; 
       console.log(totalCycles)
@@ -103,7 +102,7 @@ function Play() {
       </div>
 
       <div style={{position: 'absolute', left: '10vw', bottom: "25px", width: '80vw', display: 'flex', flexDirection: 'row', justifyContent: 'space-between',alignItems:'center'}}>
-      <WorkoutCard title={"Distance till next achivment"} percent={currentAchivment+0.01} describe={`${distances[achivments.length] -passedDistanceAchivemnts}m`} color={'buttonSemiLight'} SX={{width: '170px'}} />
+      <WorkoutCard title={"Distance till next achivment"} percent={currentAchivment+0.01} describe={`${nextAchivmentDistance}m`} color={'buttonSemiLight'} SX={{width: '170px'}} />
         <WorkoutCard title={"Total distance"} percent={0} describe={`${totalCycles} m`} color={'buttonSemiLight'} SX={{width: '170px', height: '120px'}} />
         <WorkoutCard title={"Speed"} percent={0} describe={`${speed.toFixed(1)} Km/H`} color={'buttonSemiLight'} SX={{width: '170px', height: '120px'}} />
         <WorkoutCard title={"Total Pase"} percent={0} describe={`${pace} a km`} color={'buttonSemiLight'} SX={{width: '170px', height: '120px'}} />

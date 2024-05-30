@@ -16,6 +16,7 @@ import { LineChart } from '@mui/x-charts/LineChart';
 import { resetCounter } from '../webSocket';
 import { calories, highestSpeed, pace, speedArray, totalCycles, totalTime } from './Play';
 import { Typography } from '@mui/joy';
+import { socket } from './Start';
 
 function Summary() {
 
@@ -53,8 +54,8 @@ function Summary() {
     />
       </div>
     <div style={{ alignItems:'center', display:'flex', flexDirection:'column',justifyContent:'center'}}>
-        <Button className='buttonSemiLight' sx={{fontSize: '16px',fontWeight:'600', marginBottom:'10px'}} onClick={async (e)=>{e.preventDefault();await slideAllElementToLeft(Colors.DarkColor);resetCounter();setPage(Pages.play)}}>Restart Workout</Button>
-        <Button className='buttonSemiLight' sx={{fontSize: '16px',fontWeight:'600'}} onClick={async (e)=>{e.preventDefault();await slideAllElementToLeft(Colors.DarkColor);setPage(Pages.start)}}>End</Button>
+        <Button className='buttonSemiLight' sx={{fontSize: '16px',fontWeight:'600', marginBottom:'10px'}} onClick={async (e)=>{e.preventDefault();await slideAllElementToLeft(Colors.DarkColor);resetCounter(socket);setPage(Pages.play)}}>Restart Workout</Button>
+        <Button className='buttonSemiLight' sx={{fontSize: '16px',fontWeight:'600'}} onClick={async (e)=>{e.preventDefault();resetCounter(socket);await slideAllElementToLeft(Colors.DarkColor);setPage(Pages.start)}}>End</Button>
       </div>
 
       </div>
