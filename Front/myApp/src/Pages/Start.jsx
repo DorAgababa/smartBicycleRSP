@@ -23,7 +23,6 @@ function Start() {
     resetCounter(socket);
     socket.onmessage = function(event) {
       cycle = JSON.parse(event.data).data; 
-      console.log(cycle)
   };
 })
 

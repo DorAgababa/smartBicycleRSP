@@ -168,8 +168,8 @@ export function calculateSpeed(cycles, wheelSize, timeInSeconds) {
   let speedMetersPerSecond = totalDistance / timeInSeconds;
   // Convert speed to kilometers per hour
   let speedKmPerHour = speedMetersPerSecond * 3.6;
-  if(speedKmPerHour>1000) return 0
-  return speedKmPerHour;
+  if(speedKmPerHour>1000 || isNaN(speedKmPerHour)) return 0
+  return speedKmPerHour
 }
 
 export function calculatePace(totalTimeInSeconds, totalDistanceInKm) {
@@ -178,7 +178,7 @@ export function calculatePace(totalTimeInSeconds, totalDistanceInKm) {
   let minutes = Math.floor((paceInHours * 60) % 60);
   let hours = Math.floor(paceInHours);
   let formattedPace = `${hours < 10 ? '0' : ''}${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
-
+  if(isNaN(hours)) return '00:00:00'
   return formattedPace;
 }
 

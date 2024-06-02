@@ -56,7 +56,7 @@ function Play() {
     const hours = `0${Math.floor((time / 1000 / 60 / 60) % 24)}`.slice(-2);
     speed = calculateSpeed(totalCycles,"15",time / 1000)
     if(speed>highestSpeed)highestSpeed = speed
-    if(seconds%10 == 0)speedArray.push(speed)
+    if( Math.floor((time / 1000) % 60) % 10 == 0 && !isNaN(speed))speedArray.push(speed)
     pace = calculatePace(time / 1000,totalCycles/1000)
     calories = calculateCaloriesBurned(80,(time / 1000 / 60 / 60) % 24 ,speed)
 
@@ -79,7 +79,6 @@ function Play() {
     totalCycles=0;
     socket.onmessage = function(event) {
       totalCycles = JSON.parse(event.data).data; 
-      console.log(totalCycles)
   };
     resetCounter(socket);
     startStopper();
