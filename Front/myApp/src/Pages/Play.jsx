@@ -11,10 +11,9 @@ import ssMus from '../music/daa.wav';
 import AchivmentsBar from '../components/achivmentsBar';
 import { State } from '../components/Alert';
 import { connectWebSocket, pauseCounter, releaseCounter, resetCounter } from '../webSocket';
-import { socket } from './Start';
+import { socket, totalCycles } from './Start';
 
 export let achivments = [];
-export let totalCycles = 0;
 export let speed = 0;
 export let pace =0;
 export let calories = 0;
@@ -36,7 +35,6 @@ function Play() {
       clearInterval(intervalRef.current);
     } else {
       const startTime = Date.now() - time;
-      releaseCounter(socket);
       intervalRef.current = setInterval(() => {
         setTime(Date.now() - startTime);
       }, 1000);
@@ -76,10 +74,6 @@ function Play() {
   };
 
   useEffect(() => {
-    totalCycles=0;
-    socket.onmessage = function(event) {
-      totalCycles = JSON.parse(event.data).data; 
-  };
     resetCounter(socket);
     startStopper();
     setTime(0)

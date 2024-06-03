@@ -14,9 +14,9 @@ import startImg from '../images/start_button.png'
 import WorkoutCard from '../components/WorkoutCard';
 import { LineChart } from '@mui/x-charts/LineChart';
 import { resetCounter } from '../webSocket';
-import { calories, highestSpeed, pace, speedArray, totalCycles, totalTime } from './Play';
+import { calories, highestSpeed, pace, speedArray, totalTime } from './Play';
 import { Typography } from '@mui/joy';
-import { socket } from './Start';
+import { socket, totalCycles } from './Start';
 
 function Summary() {
 

@@ -14,15 +14,16 @@ import startImg from '../images/start_button.png'
 import { connectWebSocket, resetCounter } from '../webSocket';
 
 export let socket = null;
+export let totalCycles = 0;
 
 function Start() {
   const [originalImage, setOriginalImage] = useState("");
   useEffect(() => {
-    let cycle = 0;
     socket = connectWebSocket();
     resetCounter(socket);
     socket.onmessage = function(event) {
-      cycle = JSON.parse(event.data).data; 
+      totalCycles = JSON.parse(event.data).data; 
+      console.log(totalCycles)
   };
 })
 

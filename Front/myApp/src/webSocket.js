@@ -5,16 +5,6 @@ function connectWebSocket() {
       console.log("WebSocket is open now.");
   };
 
-  socket.onmessage = function(event) {
-      try {
-          const messageObj = JSON.parse(event.data);
-          const number = messageObj.data;  // Extract the number
-          console.log('Server says: ' + number); // Or update the UI accordingly
-      } catch (e) {
-          console.error('Error parsing JSON:', e);
-      }
-  };
-
   socket.onclose = function(event) {
       console.log("WebSocket is closed now.");
   };
