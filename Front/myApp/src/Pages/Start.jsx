@@ -17,20 +17,19 @@ export let socket = null;
 export let totalCycles = 0;
 
 function Start() {
-  const [originalImage, setOriginalImage] = useState("");
   useEffect(() => {
     socket = connectWebSocket();
     resetCounter(socket);
     socket.onmessage = async function(event) {
       totalCycles = JSON.parse(event.data).data; 
-      if(totalCycles>=3){
+      if(totalCycles>=3 && document.querySelector('.startDiv')){
         await slideAllElementToLeft(Colors.DarkColor);setPage(Pages.play)
       }
   };
 })
 
   return (
-    <div className='content' style={{left:0,top:0,display: 'flex' ,  flexDirection:"column",  justifyContent:'center',    alignItems:'center',backgroundColor:Colors.SemiDarkColor, width:"100vw",height:"100vh"}}>
+    <div className='content startDiv' style={{left:0,top:0,display: 'flex' ,  flexDirection:"column",  justifyContent:'center',    alignItems:'center',backgroundColor:Colors.SemiDarkColor, width:"100vw",height:"100vh"}}>
         <img className="startButton" src={startImg} style={{width:"20%", borderRadius:"70%"}}/>
         <Button className='buttonSemiLight' sx={{fontSize:"18px",padding:'5px 15px 5px 15px'}} onClick={async (e)=>{e.preventDefault();await slideAllElementToLeft(Colors.DarkColor);setPage(Pages.play)}}>Start workout</Button>
     </div>
