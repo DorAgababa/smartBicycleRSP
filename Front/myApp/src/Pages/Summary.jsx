@@ -19,16 +19,15 @@ import { Typography } from '@mui/joy';
 import { socket, totalCycles } from './Start';
 
 function Summary() {
-
   return (
     <div className='content' style={{left:0,top:0,display: 'flex' ,  flexDirection:"column",  justifyContent:'center',    alignItems:'center',backgroundColor:Colors.SemiDarkColor, width:"100vw",height:"100vh"}}>
-      <div style={{position: 'absolute', left: '10vw', top: "20vh", width: '80vw', display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+      <div style={{position: 'absolute', left: '10vw', top: "2vh", width: '80vw', display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
         <WorkoutCard title={"Total time"} percent={0} describe={`${totalTime}`} color={'buttonLight'} SX={{width: '250px', height: '100px'}} />
         <WorkoutCard title={"Total distance"} percent={0} describe={`${totalCycles/1000} Km`} color={'buttonLight'} SX={{width: '250px', height: '100px'}} />
         <WorkoutCard title={"Total Pase"} percent={0} describe={`${pace} Km/H`} color={'buttonLight'} SX={{width: '250px', height: '100px'}} />
         <WorkoutCard title={"Total calories Burned"} percent={0} describe={`${calories.toFixed(1)} Cal`} color={'buttonLight'} SX={{width: '250px', height: '100px'}} />
       </div>
-      <div style={{position: 'absolute', left: '10vw', bottom: "15vh", width: '80vw', display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>
+      <div style={{position: 'absolute', left: '10vw', bottom: "2vh", width: '80vw', display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>
       <div style={{position:'relative',display:'flex',justifyContent:'center',flexDirection:'column',paddingTop:'15px',background: Colors.LightColor, borderRadius: '20px'}}>
         <Typography sx={{textAlign:'center'}} level="title-md">Workout Graph</Typography>
       <LineChart
@@ -47,7 +46,8 @@ function Summary() {
           valueFormatter: (value) => value.toFixed(1).toString() + " Km/H",
         },
       ]}
-      xAxis = {[{ data: speedArray.map((_, index) => index + 1), scaleType: 'linear' }]}
+      xAxis = {[{ data: speedArray.map((_, index) => index + 1), scaleType: 'linear' ,label:"time (seconds)"}]}
+      yAxis=  {[{ label:"Speed"}]}
       width={600}
       height={300}
       sx={ {background: Colors.LightColor, borderRadius: '20px', padding: '5px 0 5px 0'}}

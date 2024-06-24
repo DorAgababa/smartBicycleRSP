@@ -21,9 +21,11 @@ function Start() {
   useEffect(() => {
     socket = connectWebSocket();
     resetCounter(socket);
-    socket.onmessage = function(event) {
+    socket.onmessage = async function(event) {
       totalCycles = JSON.parse(event.data).data; 
-      console.log(totalCycles)
+      if(totalCycles>=3){
+        await slideAllElementToLeft(Colors.DarkColor);setPage(Pages.play)
+      }
   };
 })
 

@@ -28,6 +28,8 @@ def intterupt_handler_magnetic_sensor(loop):
 # Function to reset rounds count
 def reset_rounds():
     global rounds
+    global hold_flag
+    hold_flag = False
     rounds = 0
     print("Rounds reset")
 

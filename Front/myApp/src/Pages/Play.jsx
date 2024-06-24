@@ -38,6 +38,7 @@ function Play() {
       intervalRef.current = setInterval(() => {
         setTime(Date.now() - startTime);
       }, 1000);
+      releaseCounter();
     }
     setIsRunning(!isRunning);
   };
