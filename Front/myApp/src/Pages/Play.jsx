@@ -8,7 +8,7 @@ import CheerUp from '../components/CheerUp';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import VolumeMuteIcon from '@mui/icons-material/VolumeMute';
 import ssMus from '../music/daa.wav';
-import AchivmentsBar from '../components/achivmentsBar';
+import AchivmentsBar from '../components/AchivmentsBar';
 import { State } from '../components/Alert';
 import { connectWebSocket, pauseCounter, releaseCounter, resetCounter } from '../webSocket';
 import { socket, totalCycles } from './Start';
