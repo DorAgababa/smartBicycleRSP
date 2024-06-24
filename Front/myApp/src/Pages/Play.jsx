@@ -40,7 +40,6 @@ function Play() {
       }, 1000);
     }
     setIsRunning(!isRunning);
-    releaseCounter();
   };
 
   const stopStopper = () => {
@@ -88,7 +87,7 @@ function Play() {
       <AchivmentsBar achhivments={achivments}/>
       <div style={{ top: '20px', right: '20px', position: 'absolute',alignItems:'center', display:'inline-flex'}}>
         <Button className='buttonLight' sx={{marginLeft: '10px'}} onClick={e=>{e.preventDefault();setIsMuted(!isMuted)}}>{isMuted ? <VolumeOffIcon/> : <VolumeMuteIcon/>}</Button>
-        <Button className='buttonLight' sx={{marginLeft: '10px'}} onClick={(e)=>{e.preventDefault();isRunning ? stopStopper() : startStopper()}}>{isRunning ? 'Stop' : 'Start'}</Button>
+        <Button className='buttonLight' sx={{marginLeft: '10px'}} onClick={(e)=>{e.preventDefault();isRunning ? stopStopper() : startStopper();releaseCounter();}}>{isRunning ? 'Stop' : 'Start'}</Button>
         <Button className='buttonLight' sx={{marginLeft: '10px'}} onClick={async (e)=>{e.preventDefault();ClearObjBox();stopStopper();await slideAllElementToLeft(Colors.SemiDarkColor);setPage(Pages.summary)}}>End workout</Button>
       </div>
 
