@@ -12,6 +12,8 @@ import AchivmentsBar from '../components/AchivmentsBar';
 import { State } from '../components/Alert';
 import { connectWebSocket, pauseCounter, releaseCounter, resetCounter } from '../webSocket';
 import { socket, totalCycles } from './Start';
+import ImageRevealer from '../components/ImageRevealer';
+import imgg from '../images/start_button.png'
 
 export let achivments = [];
 export let speed = 0;
@@ -93,13 +95,18 @@ function Play() {
       </div>
 
       <div>
+
+      {/* <div style={{position:'relative', top:'-17%'}}>
+        <ImageRevealer src={imgg} />
+      </div> */}
+
       </div>
 
-      <div style={{position: 'absolute', left: '10vw', bottom: "25px", width: '80vw', display: 'flex', flexDirection: 'row', justifyContent: 'space-between',alignItems:'center'}}>
-      <WorkoutCard title={"Distance till next achivment"} percent={currentAchivment+0.01} describe={`${nextAchivmentDistance}m`} color={'buttonSemiLight'} SX={{width: '170px'}} />
+      <div style={{position: 'absolute', left: '7.5vw', bottom: "10px", width: '85vw', display: 'flex', flexDirection: 'row', justifyContent: 'space-between',alignItems:'center'}}>
         <WorkoutCard title={"Total distance"} percent={0} describe={`${totalCycles} m`} color={'buttonSemiLight'} SX={{width: '170px', height: '120px'}} />
         <WorkoutCard title={"Speed"} percent={0} describe={`${speed.toFixed(1)} Km/H`} color={'buttonSemiLight'} SX={{width: '170px', height: '120px'}} />
-        <WorkoutCard title={"Total Pase"} percent={0} describe={`${pace} a km`} color={'buttonSemiLight'} SX={{width: '170px', height: '120px'}} />
+        <WorkoutCard title={"Distance till next achivment"} percent={currentAchivment+0.01} describe={`${nextAchivmentDistance}m`} color={'buttonSemiLight'} SX={{width: '290px', height: '120px'}} />
+        <WorkoutCard title={"Total Pase"} percent={0} describe={`${pace.toString().includes("Infi")?"00:00:00":pace} a km`} color={'buttonSemiLight'} SX={{width: '170px', height: '120px'}} />
         <WorkoutCard title={"Calories"} percent={0} describe={`${calories.toFixed(1)} Cal`} color={'buttonSemiLight'} SX={{width: '170px', height: '120px'}} />
       </div>
     </div>
