@@ -14,7 +14,7 @@ import startImg from '../images/start_button.png'
 import WorkoutCard from '../components/WorkoutCard';
 import { LineChart } from '@mui/x-charts/LineChart';
 import { resetCounter } from '../webSocket';
-import { calories, highestSpeed, pace, speedArray, totalTime } from './Play';
+import { calories, highestSpeed, avgSpeed, speedArray, totalTime } from './Play';
 import { Typography } from '@mui/joy';
 import { socket, totalCycles } from './Start';
 
@@ -24,7 +24,7 @@ function Summary() {
       <div style={{position: 'absolute', left: '10vw', top: "2vh", width: '80vw', display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
         <WorkoutCard title={"Total time"} percent={0} describe={`${totalTime}`} color={'buttonLight'} SX={{width: '250px', height: '100px'}} />
         <WorkoutCard title={"Total distance"} percent={0} describe={`${totalCycles/1000} Km`} color={'buttonLight'} SX={{width: '250px', height: '100px'}} />
-        <WorkoutCard title={"Total Pase"} percent={0} describe={`${pace} Km/H`} color={'buttonLight'} SX={{width: '250px', height: '100px'}} />
+        <WorkoutCard title={"Total pace"} percent={0} describe={`${avgSpeed} Km/H`} color={'buttonLight'} SX={{width: '250px', height: '100px'}} />
         <WorkoutCard title={"Total calories Burned"} percent={0} describe={`${calories.toFixed(1)} Cal`} color={'buttonLight'} SX={{width: '250px', height: '100px'}} />
       </div>
       <div style={{position: 'absolute', left: '10vw', bottom: "2vh", width: '80vw', display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>

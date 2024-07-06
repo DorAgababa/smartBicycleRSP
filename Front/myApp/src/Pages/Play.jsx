@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Button } from '@mui/material';
 import WorkoutCard from '../components/WorkoutCard';
 import { Colors, Pages } from '../data/constants';
-import { Sleep, calculateCaloriesBurned, calculatePace, calculateSpeed, slideAllElementToLeft } from '../utils';
+import { Sleep, calculateCaloriesBurned, calculateSpeed, slideAllElementToLeft } from '../utils';
 import { ClearObjBox, setPage } from '../App';
 import CheerUp from '../components/CheerUp';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
@@ -15,11 +15,12 @@ import { socket, totalCycles } from './Start';
 
 export let achivments = [];
 export let speed = 0;
-export let pace =0;
+export let avgSpeed =0;
 export let calories = 0;
 export let totalTime = 0;
 export let highestSpeed = 0;
 export let speedArray = [0];
+let lastCyclesCounter = 0; 
 let nextAchivmentDistance = 0;
 
 function Play() {
@@ -53,11 +54,13 @@ function Play() {
     const seconds = `0${Math.floor((time / 1000) % 60)}`.slice(-2);
     const minutes = `0${Math.floor((time / 1000 / 60) % 60)}`.slice(-2);
     const hours = `0${Math.floor((time / 1000 / 60 / 60) % 24)}`.slice(-2);
-    speed = calculateSpeed(totalCycles,"15",time / 1000)
+    let cyclesDuringLastSecond = totalCycles - lastCyclesCounter;
+    lastCyclesCounter = totalCycles;
+    speed = calculateSpeed(cyclesDuringLastSecond,"15",1) //the speed of the last second
+    avgSpeed = calculateSpeed(totalCycles,"15",time / 1000)
     if(speed>highestSpeed)highestSpeed = speed
     if( Math.floor((time / 1000) % 60) % 10 == 0 && !isNaN(speed))speedArray.push(speed)
-    pace = calculatePace(time / 1000,totalCycles/1000)
-    calories = calculateCaloriesBurned(80,(time / 1000 / 60 / 60) % 24 ,speed)
+    calories = calculateCaloriesBurned(80,(time / 1000 / 60 / 60) % 24 ,avgSpeed)
 
     if((totalCycles - distances[achivments.length]) == 0){
       CheerUp(`Well done for doing ${distances[achivments.length]} Meters !`,"")
@@ -99,7 +102,7 @@ function Play() {
       <WorkoutCard title={"Distance till next achivment"} percent={currentAchivment+0.01} describe={`${nextAchivmentDistance}m`} color={'buttonSemiLight'} SX={{width: '170px'}} />
         <WorkoutCard title={"Total distance"} percent={0} describe={`${totalCycles} m`} color={'buttonSemiLight'} SX={{width: '170px', height: '120px'}} />
         <WorkoutCard title={"Speed"} percent={0} describe={`${speed.toFixed(1)} Km/H`} color={'buttonSemiLight'} SX={{width: '170px', height: '120px'}} />
-        <WorkoutCard title={"Total Pase"} percent={0} describe={`${pace} a km`} color={'buttonSemiLight'} SX={{width: '170px', height: '120px'}} />
+        <WorkoutCard title={"Average speed"} percent={0} describe={`${avgSpeed} Km/H`} color={'buttonSemiLight'} SX={{width: '170px', height: '120px'}} />
         <WorkoutCard title={"Calories"} percent={0} describe={`${calories.toFixed(1)} Cal`} color={'buttonSemiLight'} SX={{width: '170px', height: '120px'}} />
       </div>
     </div>
