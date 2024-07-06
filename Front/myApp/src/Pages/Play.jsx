@@ -69,7 +69,7 @@ function Play() {
     if(speed>highestSpeed)highestSpeed = speed
     if( Math.floor((time / 1000) % 60) % 10 == 0 && !isNaN(speed))speedArray.push(speed)
     calories = calculateCaloriesBurned(80,(time / 1000 / 60 / 60) % 24 ,avgSpeed)
-
+    earlyActivityFinishCheck();
     if((totalCycles - distances[achivments.length]) == 0){
       CheerUp(`Well done for doing ${distances[achivments.length]} Meters !`,"")
       passedDistanceAchivemnts += distances[achivments.length]
@@ -85,6 +85,18 @@ function Play() {
     return `${hours}:${minutes}:${seconds}`;
   };
 
+  const earlyActivityFinishCheck = async () => {
+    //TODO: David add kind of a message that will notify user that his activity end due to inactivity
+    const lastTenElements = speedArray.slice(-10);
+    const allZero = lastTenElements.length === 10 && lastTenElements.every(speed => speed === 0);
+    if (allZero) {
+      ClearObjBox();
+      stopStopper();
+      await slideAllElementToLeft(Colors.SemiDarkColor);
+      setPage(Pages.summary);
+    }
+  };
+  
   useEffect(() => {
     resetCounter(socket);
     startStopper();
