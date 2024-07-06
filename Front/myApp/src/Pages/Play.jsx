@@ -5,8 +5,8 @@ import { Colors, Pages } from '../data/constants';
 import { Sleep, calculateCaloriesBurned, calculatePace, calculateSpeed, slideAllElementToLeft } from '../utils';
 import { ClearObjBox, setPage } from '../App';
 import CheerUp from '../components/CheerUp';
-import VolumeOffIcon from '@mui/icons-material/VolumeOff';
-import VolumeMuteIcon from '@mui/icons-material/VolumeMute';
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import VolumeDownIcon from '@mui/icons-material/VolumeDown';
 import ssMus from '../music/daa.wav';
 import AchivmentsBar from '../components/AchivmentsBar';
 import { State } from '../components/Alert';
@@ -28,8 +28,14 @@ function Play() {
   const [time, setTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const intervalRef = useRef(null);
-  const [isMuted, setIsMuted] = useState(false);
+  const [volume, setVolume] = useState(50);
   let currentAchivment = 0.01
+  const handleVolumeUp = () => {
+    setVolume(prevVolume => Math.min(prevVolume + 10, 100));
+  }
+  const handleVolumeDown = () => {
+    setVolume(prevVolume => Math.max(prevVolume - 10, 0));
+  }
   const startStopper = () => {
     if (isRunning) {
       clearInterval(intervalRef.current);
@@ -87,7 +93,8 @@ function Play() {
       <WorkoutCard title={"Workout timer"} percent={0}  describe={formatTime(time)} color={'buttonSemiLight'} SX={{position: 'absolute', top: '30px', left: '30px'}}/>
       <AchivmentsBar achhivments={achivments}/>
       <div style={{ top: '20px', right: '20px', position: 'absolute',alignItems:'center', display:'inline-flex'}}>
-        <Button className='buttonLight' sx={{marginLeft: '10px'}} onClick={e=>{e.preventDefault();setIsMuted(!isMuted)}}>{isMuted ? <VolumeOffIcon/> : <VolumeMuteIcon/>}</Button>
+        <Button className='buttonLight' sx={{ marginLeft: '10px' }} onClick={handleVolumeDown}><VolumeDownIcon/></Button>
+        <Button className='buttonLight' sx={{ marginLeft: '10px' }} onClick={handleVolumeUp}><VolumeUpIcon/></Button>
         <Button className='buttonLight' sx={{marginLeft: '10px'}} onClick={(e)=>{e.preventDefault();isRunning ? stopStopper() : startStopper();}}>{isRunning ? 'Stop' : 'Start'}</Button>
         <Button className='buttonLight' sx={{marginLeft: '10px'}} onClick={async (e)=>{e.preventDefault();ClearObjBox();stopStopper();await slideAllElementToLeft(Colors.SemiDarkColor);setPage(Pages.summary)}}>End workout</Button>
       </div>
