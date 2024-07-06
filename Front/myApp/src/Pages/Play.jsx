@@ -5,13 +5,15 @@ import { Colors, Pages } from '../data/constants';
 import { Sleep, calculateCaloriesBurned, calculateSpeed, slideAllElementToLeft } from '../utils';
 import { ClearObjBox, setPage } from '../App';
 import CheerUp from '../components/CheerUp';
-import VolumeOffIcon from '@mui/icons-material/VolumeOff';
-import VolumeMuteIcon from '@mui/icons-material/VolumeMute';
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import VolumeDownIcon from '@mui/icons-material/VolumeDown';
 import ssMus from '../music/daa.wav';
 import AchivmentsBar from '../components/AchivmentsBar';
 import { State } from '../components/Alert';
 import { connectWebSocket, pauseCounter, releaseCounter, resetCounter } from '../webSocket';
 import { socket, totalCycles } from './Start';
+import ImageRevealer from '../components/ImageRevealer';
+import imgg from '../images/start_button.png'
 
 export let achivments = [];
 export let speed = 0;
@@ -29,8 +31,14 @@ function Play() {
   const [time, setTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const intervalRef = useRef(null);
-  const [isMuted, setIsMuted] = useState(false);
+  const [volume, setVolume] = useState(50);
   let currentAchivment = 0.01
+  const handleVolumeUp = () => {
+    setVolume(prevVolume => Math.min(prevVolume + 10, 100));
+  }
+  const handleVolumeDown = () => {
+    setVolume(prevVolume => Math.max(prevVolume - 10, 0));
+  }
   const startStopper = () => {
     if (isRunning) {
       clearInterval(intervalRef.current);
@@ -90,18 +98,24 @@ function Play() {
       <WorkoutCard title={"Workout timer"} percent={0}  describe={formatTime(time)} color={'buttonSemiLight'} SX={{position: 'absolute', top: '30px', left: '30px'}}/>
       <AchivmentsBar achhivments={achivments}/>
       <div style={{ top: '20px', right: '20px', position: 'absolute',alignItems:'center', display:'inline-flex'}}>
-        <Button className='buttonLight' sx={{marginLeft: '10px'}} onClick={e=>{e.preventDefault();setIsMuted(!isMuted)}}>{isMuted ? <VolumeOffIcon/> : <VolumeMuteIcon/>}</Button>
+        <Button className='buttonLight' sx={{ marginLeft: '10px' }} onClick={handleVolumeDown}><VolumeDownIcon/></Button>
+        <Button className='buttonLight' sx={{ marginLeft: '10px' }} onClick={handleVolumeUp}><VolumeUpIcon/></Button>
         <Button className='buttonLight' sx={{marginLeft: '10px'}} onClick={(e)=>{e.preventDefault();isRunning ? stopStopper() : startStopper();}}>{isRunning ? 'Stop' : 'Start'}</Button>
         <Button className='buttonLight' sx={{marginLeft: '10px'}} onClick={async (e)=>{e.preventDefault();ClearObjBox();stopStopper();await slideAllElementToLeft(Colors.SemiDarkColor);setPage(Pages.summary)}}>End workout</Button>
       </div>
 
       <div>
+
+      {/* <div style={{position:'relative', top:'-17%'}}>
+        <ImageRevealer src={imgg} />
+      </div> */}
+
       </div>
 
-      <div style={{position: 'absolute', left: '10vw', bottom: "25px", width: '80vw', display: 'flex', flexDirection: 'row', justifyContent: 'space-between',alignItems:'center'}}>
-      <WorkoutCard title={"Distance till next achivment"} percent={currentAchivment+0.01} describe={`${nextAchivmentDistance}m`} color={'buttonSemiLight'} SX={{width: '170px'}} />
+      <div style={{position: 'absolute', left: '7.5vw', bottom: "10px", width: '85vw', display: 'flex', flexDirection: 'row', justifyContent: 'space-between',alignItems:'center'}}>
         <WorkoutCard title={"Total distance"} percent={0} describe={`${totalCycles} m`} color={'buttonSemiLight'} SX={{width: '170px', height: '120px'}} />
         <WorkoutCard title={"Speed"} percent={0} describe={`${speed.toFixed(1)} Km/H`} color={'buttonSemiLight'} SX={{width: '170px', height: '120px'}} />
+        <WorkoutCard title={"Distance till next achivment"} percent={currentAchivment+0.01} describe={`${nextAchivmentDistance}m`} color={'buttonSemiLight'} SX={{width: '290px', height: '120px'}} />
         <WorkoutCard title={"Average speed"} percent={0} describe={`${avgSpeed} Km/H`} color={'buttonSemiLight'} SX={{width: '170px', height: '120px'}} />
         <WorkoutCard title={"Calories"} percent={0} describe={`${calories.toFixed(1)} Cal`} color={'buttonSemiLight'} SX={{width: '170px', height: '120px'}} />
       </div>
