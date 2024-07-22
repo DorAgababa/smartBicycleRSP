@@ -1,100 +1,75 @@
 import React, { useState, useEffect, useRef } from 'react';
+import '../ImageReveal.css';
 
-const ImageRevealer = ({ src, pieces = 50, width = 250, height = 250 }) => {
-  const canvasRef = useRef(null);
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [piecesArray, setPiecesArray] = useState([]);
+const getRandomImage = (imagePaths, pickedImages) => {
+    // Filter out picked images
+    const availableImages = Object.keys(imagePaths).filter(path => !pickedImages.includes(path));
+    
+    if (availableImages.length === 0) {
+      // All images have been picked; reset the pickedImages list
+      pickedImages = [];
+      return getRandomImage(imagePaths, pickedImages);
+    }
+  
+    // Pick a random image from available images
+    const randomIndex = Math.floor(Math.random() * availableImages.length);
+    let path = availableImages[randomIndex]
+    imagePaths = path.replace("..","/src")
+    return imagePaths;
+  };
 
-  useEffect(() => {
-    const img = new Image();
-    img.src = src;
-    img.crossOrigin = "Anonymous"; // This allows cross-origin image loading
-    img.onload = () => {
-      const canvas = canvasRef.current;
-      const ctx = canvas.getContext('2d');
-      
-      // Calculate dimensions to fit within the canvas while maintaining aspect ratio
-      let imgWidth = img.width;
-      let imgHeight = img.height;
-      let scaleFactor = 1;
-
-      if (imgWidth > width || imgHeight > height) {
-        const widthRatio = width / imgWidth;
-        const heightRatio = height / imgHeight;
-        scaleFactor = Math.min(widthRatio, heightRatio);
-        imgWidth *= scaleFactor;
-        imgHeight *= scaleFactor;
-      }
-
-      // Calculate offsets to center the image
-      const offsetX = (width - imgWidth) / 2;
-      const offsetY = (height - imgHeight) / 2;
-
-      // Draw the scaled image on the canvas
-      ctx.drawImage(img, offsetX, offsetY, imgWidth, imgHeight);
-
-      // Calculate piece dimensions and positions
-      const pieceWidth = imgWidth / Math.sqrt(pieces);
-      const pieceHeight = imgHeight / Math.sqrt(pieces);
-      const piecesArray = [];
-      for (let y = 0; y < Math.sqrt(pieces); y++) {
-        for (let x = 0; x < Math.sqrt(pieces); x++) {
-          piecesArray.push({ x: x * pieceWidth + offsetX, y: y * pieceHeight + offsetY, pieceWidth, pieceHeight });
-        }
-      }
-
-      setPiecesArray(piecesArray);
-      setImageLoaded(true);
-      console.log('Image loaded and pieces calculated');
-    };
-    img.onerror = (err) => {
-      console.error('Failed to load image:', err);
-    };
-  }, [src, width, height, pieces]);
+let images
+const ImageRevealer = () => {
+    const [clearedCells, setClearedCells] = useState([]);
+    const [imageSrc, setImageSrc] = useState('');
+    const [pickedImages, setPickedImages] = useState([]);
 
   useEffect(() => {
-    if (!imageLoaded || piecesArray.length === 0) return;
+    images = import.meta.glob('../images/discoverImagesGame/*.{png,jpg,jpeg,svg}');
+    const gridOverlay = document.querySelector('.grid-overlay');
+    const imagePath = getRandomImage(images, pickedImages);
+        setImageSrc(imagePath);
+        setPickedImages(prev => [...prev, imagePath]);
+        console.log(imagePath)
+      for (let i = 0; i < 256; i++) {
+      const gridCell = document.createElement('div');
+      gridCell.classList.add('grid-cell');
+      gridCell.dataset.index = i;  // Add an index to each grid cell
+      gridOverlay.appendChild(gridCell);
+    }
+  }, []);
 
-    const ctx = canvasRef.current.getContext('2d');
-    const img = new Image();
-    img.src = src;
-    img.crossOrigin = "Anonymous"; // This allows cross-origin image loading
-    img.onload = () => {
-      const shuffledPieces = [...piecesArray];
+  const revealDiv = () => {
+    const gridCells = document.querySelectorAll('.grid-cell');
+    const unRevealedCells = Array.from(gridCells).filter(cell => !clearedCells.includes(cell.dataset.index));
 
-      const interval = setInterval(() => {
-        if (shuffledPieces.length === 0) {
-          clearInterval(interval);
-          console.log('Image fully revealed');
-          return;
-        }
+    if (unRevealedCells.length > 0) {
+      const randomIndex = Math.floor(Math.random() * unRevealedCells.length);
+      const selectedCell = unRevealedCells[randomIndex];
+      selectedCell.style.backgroundColor = 'transparent';
+      setClearedCells([...clearedCells, selectedCell.dataset.index]);
+    }
+    if (clearedCells.length + 1 === gridCells.length) {
+        // All cells are revealed, so reset the grid and change the image
+        gridCells.forEach(cell => {
+          cell.style.backgroundColor = '#f88f3b'; // Reset color to #f88f3b
+        });
+  
+        // Get a new image path and update the image source
+        const imagePath = getRandomImage(images, pickedImages);
+        setImageSrc(imagePath);
+        setPickedImages(prev => [...prev, imagePath]);
+        setClearedCells([]); // Clear the clearedCells for the new image
+    }
+  };
 
-        const randomIndex = Math.floor(Math.random() * shuffledPieces.length);
-        const piece = shuffledPieces.splice(randomIndex, 1)[0];
-
-        // Draw the piece from the image to the canvas
-        ctx.drawImage(
-          img,
-          piece.x - (width - img.width * scaleFactor) / 2, // Adjust for original image scaling
-          piece.y - (height - img.height * scaleFactor) / 2, // Adjust for original image scaling
-          piece.pieceWidth,
-          piece.pieceHeight,
-          piece.x,
-          piece.y,
-          piece.pieceWidth,
-          piece.pieceHeight
-        );
-        console.log(`Piece revealed at (${piece.x}, ${piece.y})`);
-      }, 1000);
-
-      return () => clearInterval(interval);
-    };
-    img.onerror = (err) => {
-      console.error('Failed to reload image for drawing pieces:', err);
-    };
-  }, [imageLoaded, piecesArray, src, width, height]);
-
-  return <canvas ref={canvasRef} width={width} height={height} style={{ border: '1px solid black' }} />;
+  return (
+    <div className="container">
+      <img src={imageSrc} alt="Your Image" className="image" />
+      <div className="grid-overlay"></div>
+      <button className='revealBtn' onClick={revealDiv}>reveal</button>
+    </div>
+  );
 };
 
 export default ImageRevealer;

@@ -118,9 +118,9 @@ function Play() {
 
       <div>
 
-      {/* <div style={{position:'relative', top:'-17%'}}>
-        <ImageRevealer src={imgg} />
-      </div> */}
+      <div className="App" style={{marginBottom:'100px'}}>
+            <ImageRevealer />
+        </div>
 
       </div>
 
