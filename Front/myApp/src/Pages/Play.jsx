@@ -88,6 +88,8 @@ function Play() {
     {
       currentAchivment = (totalCycles / distances[achivments.length])*100
     }
+    if(nextAchivmentDistance!=Math.abs((totalCycles - distances[achivments.length])))
+      handleTriggerReveal();
     nextAchivmentDistance = Math.abs((totalCycles - distances[achivments.length]))
     totalTime = `${hours}:${minutes}:${seconds}`;
     return `${hours}:${minutes}:${seconds}`;
@@ -104,9 +106,6 @@ function Play() {
       pauseCounter(socket);
       await slideAllElementToLeft(Colors.SemiDarkColor);
       setPage(Pages.summary);
-    }
-    else{
-      handleTriggerReveal()
     }
   };
 
@@ -136,7 +135,7 @@ function Play() {
 
       <div>
 
-      <div className="App" style={{top: '15%',left:'25%', position: 'absolute'}}>
+      <div className="App" style={{top: '12%',left:'25%', position: 'absolute'}}>
             <ImageRevealer ref={ImageReveal}/>
         </div>
 
