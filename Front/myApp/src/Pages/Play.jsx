@@ -90,6 +90,7 @@ function Play() {
     const lastTenElements = speedArray.slice(-10);
     const allZero = lastTenElements.length === 10 && lastTenElements.every(speed => speed === 0);
     if (allZero) {
+      speedArray=[0];
       ClearObjBox();
       stopStopper();
       await slideAllElementToLeft(Colors.SemiDarkColor);
