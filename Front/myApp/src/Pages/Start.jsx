@@ -15,15 +15,21 @@ import { connectWebSocket, resetCounter } from '../webSocket';
 
 export let socket = null;
 export let totalCycles = 0;
-
+let currentTime;
 function Start() {
   useEffect(() => {
+    currentTime = Date.now();
     socket = connectWebSocket();
     resetCounter(socket);
     socket.onmessage = async function(event) {
       totalCycles = JSON.parse(event.data).data; 
-      if(totalCycles>=3 && document.querySelector('.startDiv')){
-        await slideAllElementToLeft(Colors.DarkColor);setPage(Pages.play)
+      if(totalCycles>=2 && document.querySelector('.startDiv')){
+        if (Date.now()-elapsedTime >= 5000) {
+          currentTime = Date.now();
+          totalCycles = 0;
+        } else {
+          await slideAllElementToLeft(Colors.DarkColor);setPage(Pages.play)
+        }
       }
   };
 })

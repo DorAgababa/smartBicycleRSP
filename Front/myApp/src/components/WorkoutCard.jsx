@@ -13,7 +13,7 @@ export default function WorkoutCard({title,describe="",percent=2,color='buttonLi
     <Card variant="solid" className={color} sx={{...SX}}>
       <CardContent sx={{position:'relative'}}>
         {percent!=0 && 
-        (<div className='carddd' style={{position:'absolute',bottom:"-5px",left:"-10px"}}><CircularProgress  size="lg" determinate value={percent} color='neutral'>
+        (<div className='carddd' style={{position:'absolute',bottom:"15px",left:"-10px"}}><CircularProgress  size="lg" determinate value={percent} color='neutral'>
           <PedalBikeIcon sx={{fontSize:'35px'}}/>
         </CircularProgress>
         </div>)}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef,forwardRef, useImperativeHandle } from 'react';
 import '../ImageReveal.css';
 
 const getRandomImage = (imagePaths, pickedImages) => {
@@ -19,11 +19,15 @@ const getRandomImage = (imagePaths, pickedImages) => {
   };
 
 let images
-const ImageRevealer = () => {
+const ImageRevealer = forwardRef((props,ref) => {
     const [clearedCells, setClearedCells] = useState([]);
     const [imageSrc, setImageSrc] = useState('');
     const [pickedImages, setPickedImages] = useState([]);
 
+    useImperativeHandle(ref, () => ({
+      revealDiv
+    }));
+    
   useEffect(() => {
     images = import.meta.glob('../images/discoverImagesGame/*.{png,jpg,jpeg,svg}');
     const gridOverlay = document.querySelector('.grid-overlay');
@@ -67,9 +71,8 @@ const ImageRevealer = () => {
     <div className="container">
       <img src={imageSrc} alt="Your Image" className="image" />
       <div className="grid-overlay"></div>
-      <button className='revealBtn' onClick={revealDiv}>reveal</button>
     </div>
   );
-};
+});
 
 export default ImageRevealer;
