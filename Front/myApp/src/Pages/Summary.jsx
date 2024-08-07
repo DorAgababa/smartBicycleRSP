@@ -54,8 +54,8 @@ function Summary() {
     />
       </div>
     <div style={{ alignItems:'center', display:'flex', flexDirection:'column',justifyContent:'center'}}>
-        <Button className='buttonSemiLight' sx={{fontSize: '16px',fontWeight:'600', marginBottom:'10px'}} onClick={async (e)=>{e.preventDefault();await slideAllElementToLeft(Colors.DarkColor);resetCounter(socket);setPage(Pages.play)}}>Restart Workout</Button>
-        <Button className='buttonSemiLight' sx={{fontSize: '16px',fontWeight:'600'}} onClick={async (e)=>{e.preventDefault();resetCounter(socket);await slideAllElementToLeft(Colors.DarkColor);setPage(Pages.start)}}>End</Button>
+        <Button className='buttonSemiLight' sx={{fontSize: '16px',fontWeight:'600', marginBottom:'10px'}} onClick={async (e)=>{e.preventDefault();await slideAllElementToLeft(Colors.DarkColor);resetCounter(socket);speedArray=[0];setPage(Pages.play)}}>Restart Workout</Button>
+        <Button className='buttonSemiLight' sx={{fontSize: '16px',fontWeight:'600'}} onClick={async (e)=>{e.preventDefault();resetCounter(socket);await slideAllElementToLeft(Colors.DarkColor);speedArray=[0];setPage(Pages.start)}}>End</Button>
       </div>
 
       </div>
