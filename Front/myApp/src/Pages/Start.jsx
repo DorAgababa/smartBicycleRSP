@@ -19,7 +19,8 @@ let currentTime;
 function Start() {
   useEffect(() => {
     currentTime = Date.now();
-    socket = connectWebSocket();
+    if(socket == null)
+      socket = connectWebSocket();
     resetCounter(socket);
     socket.onmessage = async function(event) {
       totalCycles = JSON.parse(event.data).data; 

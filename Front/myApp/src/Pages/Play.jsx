@@ -78,7 +78,7 @@ function Play() {
     if( Math.floor((time / 1000) % 60) % 10 == 0 && !isNaN(speed))speedArray.push(speed)
     calories = calculateCaloriesBurned(80,(time / 1000 / 60 / 60) % 24 ,avgSpeed)
     earlyActivityFinishCheck();
-    if((totalCycles - distances[achivments.length]) == 0){
+    if((totalCycles - distances[achivments.length]) >= 0){
       CheerUp(`Well done for doing ${distances[achivments.length]} Meters !`,"")
       passedDistanceAchivemnts += distances[achivments.length]
       achivments.push(State.warning.color)
