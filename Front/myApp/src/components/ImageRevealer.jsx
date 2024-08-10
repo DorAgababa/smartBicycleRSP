@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef,forwardRef, useImperativeHandle } from 'react';
 import '../ImageReveal.css';
+import { images_paths } from '../App';
 
 const getRandomImage = (imagePaths, pickedImages) => {
     // Filter out picked images
@@ -18,7 +19,6 @@ const getRandomImage = (imagePaths, pickedImages) => {
     return imagePaths;
   };
 
-let images
 const ImageRevealer = forwardRef((props,ref) => {
     const [clearedCells, setClearedCells] = useState([]);
     const [imageSrc, setImageSrc] = useState('');
@@ -29,9 +29,8 @@ const ImageRevealer = forwardRef((props,ref) => {
     }));
     
   useEffect(() => {
-    images = import.meta.glob('../images/discoverImagesGame/*.{png,jpg,jpeg,svg}');
     const gridOverlay = document.querySelector('.grid-overlay');
-    const imagePath = getRandomImage(images, pickedImages);
+    const imagePath = getRandomImage(images_paths, pickedImages);
         setImageSrc(imagePath);
         setPickedImages(prev => [...prev, imagePath]);
         console.log(imagePath)
@@ -60,7 +59,7 @@ const ImageRevealer = forwardRef((props,ref) => {
         });
   
         // Get a new image path and update the image source
-        const imagePath = getRandomImage(images, pickedImages);
+        const imagePath = getRandomImage(images_paths, pickedImages);
         setImageSrc(imagePath);
         setPickedImages(prev => [...prev, imagePath]);
         setClearedCells([]); // Clear the clearedCells for the new image

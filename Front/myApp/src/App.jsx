@@ -14,7 +14,7 @@ import { connectWebSocket, resetCounter } from './webSocket.js';
 
 let obj
 let current_page =(<Pages.start/>)
-
+export let images_paths
 export function ClearObjBox(){
   const domNode = document.getElementById('obj');
   obj=""
@@ -48,6 +48,13 @@ export function setPage(Page) {
 }
 
 function App() {
+
+  useEffect(() => {
+    const fetchImages = async () => {
+        images_paths = await import.meta.glob('./images/discoverImagesGame/*.{png,jpg,jpeg,svg}');
+    };
+    fetchImages();
+}, []);
 
   return (
     <>
