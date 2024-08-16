@@ -2,16 +2,15 @@ import React, { useState, useEffect, useRef,forwardRef, useImperativeHandle } fr
 import '../ImageReveal.css';
 import { appDataDir, join } from '@tauri-apps/api/path';
 import { convertFileSrc } from '@tauri-apps/api/tauri';
-import { SetAlert } from '../App';
 
-const  getRandomImage = (imagePaths, pickedImages) => {
+const  getRandomImage = async (imagePaths, pickedImages) => {
     // Filter out picked images
     const availableImages = Object.keys(imagePaths).filter(path => !pickedImages.includes(path));
     
     if (availableImages.length === 0) {
       // All images have been picked; reset the pickedImages list
       pickedImages = [];
-      return getRandomImage(imagePaths, pickedImages);
+      return await getRandomImage(imagePaths, pickedImages);
     }
   
     // Pick a random image from available images
@@ -19,12 +18,12 @@ const  getRandomImage = (imagePaths, pickedImages) => {
     let path = availableImages[randomIndex]
     imagePaths = path.replace("..","/src")
     //only in build  uncomment line below ###########################################
-    // const appDataDirPath = await appDataDir();
+    const appDataDirPath = await appDataDir();
     path = path.split('/')
     let img_name = path[path.length -1]
-    const filePath = `dist/assets/${img_name}`;
-    // const assetUrl = convertFileSrc(filePath);
-    return filePath;
+    let filePath = await join(appDataDirPath, `assets/${img_name}`);
+    const assetUrl = convertFileSrc(filePath);
+    return assetUrl;
   };
 
 let images
@@ -38,9 +37,10 @@ const ImageRevealer = forwardRef((props,ref) => {
     }));
     
   useEffect(() => {
-    images = import.meta.glob('../images/discoverImagesGame/*.{png,jpg,jpeg,svg}');
+    (async () => {
+        images = import.meta.glob('../images/discoverImagesGame/*.{png,jpg,jpeg,svg}');
     const gridOverlay = document.querySelector('.grid-overlay');
-    const imagePath = getRandomImage(images, pickedImages);
+    const imagePath = await getRandomImage(images, pickedImages);
         setImageSrc(imagePath);
         setPickedImages(prev => [...prev, imagePath]);
         console.log(imagePath)
@@ -50,9 +50,10 @@ const ImageRevealer = forwardRef((props,ref) => {
       gridCell.dataset.index = i;  // Add an index to each grid cell
       gridOverlay.appendChild(gridCell);
     }
+      })();
   }, []);
 
-  const revealDiv = () => {
+  const revealDiv = async () => {
     const gridCells = document.querySelectorAll('.grid-cell');
     const unRevealedCells = Array.from(gridCells).filter(cell => !clearedCells.includes(cell.dataset.index));
 
@@ -69,7 +70,7 @@ const ImageRevealer = forwardRef((props,ref) => {
         });
   
         // Get a new image path and update the image source
-        const imagePath = getRandomImage(images, pickedImages);
+        const imagePath = await getRandomImage(images, pickedImages);
         setImageSrc(imagePath);
         setPickedImages(prev => [...prev, imagePath]);
         setClearedCells([]); // Clear the clearedCells for the new image
