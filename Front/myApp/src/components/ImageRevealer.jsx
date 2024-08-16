@@ -20,8 +20,8 @@ const  getRandomImage = (imagePaths, pickedImages) => {
     imagePaths = path.replace("..","/src")
     //only in build  uncomment line below ###########################################
     // const appDataDirPath = await appDataDir();
-    img_path = path.split('/')
-    img_name = path[path.length -1]
+    path = path.split('/')
+    let img_name = path[path.length -1]
     const filePath = `dist/assets/${img_name}`;
     // const assetUrl = convertFileSrc(filePath);
     return filePath;
