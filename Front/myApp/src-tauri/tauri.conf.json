@@ -14,16 +14,9 @@
       "shell": {
         "open": true
       },
-      "dialog": {
-        "all": true
-      },
       "protocol": {
         "asset": true,
-        "assetScope": ["**", "**/*","assets/*"]
-      },
-      "fs": {
-        "all": true,
-        "scope": ["**", "**/*"]
+        "assetScope": ["dist/assets/*"]
       },
       "path": {
         "all": true

@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef,forwardRef, useImperativeHandle } from 'react';
 import '../ImageReveal.css';
+import { appDataDir, join } from '@tauri-apps/api/path';
+import { convertFileSrc } from '@tauri-apps/api/tauri';
 
-const getRandomImage = (imagePaths, pickedImages) => {
+const  getRandomImage = async (imagePaths, pickedImages) => {
     // Filter out picked images
     const availableImages = Object.keys(imagePaths).filter(path => !pickedImages.includes(path));
     
@@ -16,8 +18,12 @@ const getRandomImage = (imagePaths, pickedImages) => {
     let path = availableImages[randomIndex]
     imagePaths = path.replace("..","/src")
     //only in build  uncomment line below ###########################################
-    //imagePaths = path.replace("/src","..")
-    return imagePaths;
+    const appDataDirPath = await appDataDir();
+    img_path = path.split('/')
+    img_name = path[path.length -1]
+    const filePath = await join(appDataDirPath, `assets/${img_name}`);
+    const assetUrl = convertFileSrc(filePath);
+    return assetUrl;
   };
 
 let images
