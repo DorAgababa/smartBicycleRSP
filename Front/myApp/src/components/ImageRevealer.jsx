@@ -24,7 +24,6 @@ const  getRandomImage = (imagePaths, pickedImages) => {
     img_name = path[path.length -1]
     const filePath = `dist/assets/${img_name}`;
     // const assetUrl = convertFileSrc(filePath);
-    alert(filePath)
     return assetUrl;
   };
 
