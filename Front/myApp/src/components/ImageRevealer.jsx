@@ -16,7 +16,7 @@ const getRandomImage = (imagePaths, pickedImages) => {
     let path = availableImages[randomIndex]
     imagePaths = path.replace("..","/src")
     //only in build  uncomment line below ###########################################
-    imagePaths = path.replace("/src","..")
+    //imagePaths = path.replace("/src","..")
     return imagePaths;
   };
 
