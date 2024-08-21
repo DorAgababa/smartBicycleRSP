@@ -142,7 +142,7 @@ function Play() {
       </div>
 
       <div style={{position: 'absolute', left: '1vw', bottom: "0", height:'100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between',alignItems:'center'}}>
-        <WorkoutCard title={"Total distance"} percent={0} describe={`${totalCycles} m`} color={'buttonSemiLight'} SX={{width: '170px', height: '80px'}} />
+        <WorkoutCard title={"Total distance"} percent={0} describe={`${totalCycles.toFixed(1)} m`} color={'buttonSemiLight'} SX={{width: '170px', height: '80px'}} />
         <WorkoutCard title={"Current Speed"} percent={0} describe={`${speed.toFixed(1)} Km/H`} color={'buttonSemiLight'} SX={{width: '170px', height: '80px'}} />
         <WorkoutCard title={"Average speed"} percent={0} describe={`${avgSpeed.toFixed(2)} Km/H`} color={'buttonSemiLight'} SX={{width: '170px', height: '80px'}} />
         <WorkoutCard title={"Calories"} percent={0} describe={`${calories.toFixed(2)} Cal`} color={'buttonSemiLight'} SX={{width: '170px', height: '80px'}} />

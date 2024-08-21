@@ -23,7 +23,7 @@ function Summary() {
     <div className='content' style={{left:0,top:0,display: 'flex' ,  flexDirection:"column",  justifyContent:'center',    alignItems:'center',backgroundColor:Colors.SemiDarkColor, width:"100vw",height:"100vh"}}>
       <div style={{position: 'absolute', left: '10vw', top: "2vh", width: '80vw', display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
         <WorkoutCard title={"Total time"} percent={0} describe={`${totalTime}`} color={'buttonLight'} SX={{width: '250px', height: '100px'}} />
-        <WorkoutCard title={"Total distance"} percent={0} describe={`${totalCycles/1000} Km`} color={'buttonLight'} SX={{width: '250px', height: '100px'}} />
+        <WorkoutCard title={"Total distance"} percent={0} describe={`${(totalCycles/1000).toFixed(1)} Km`} color={'buttonLight'} SX={{width: '250px', height: '100px'}} />
         <WorkoutCard title={"Total pace"} percent={0} describe={`${avgSpeed.toFixed(2)} Km/H`} color={'buttonLight'} SX={{width: '250px', height: '100px'}} />
         <WorkoutCard title={"Total calories Burned"} percent={0} describe={`${calories.toFixed(1)} Cal`} color={'buttonLight'} SX={{width: '250px', height: '100px'}} />
       </div>

@@ -13,7 +13,7 @@ import Start from './Pages/Start';
 import { connectWebSocket, resetCounter } from './webSocket.js';
 
 let obj
-let current_page =(<Pages.summary/>)
+let current_page =(<Pages.start/>)
 export function ClearObjBox(){
   const domNode = document.getElementById('obj');
   obj=""
