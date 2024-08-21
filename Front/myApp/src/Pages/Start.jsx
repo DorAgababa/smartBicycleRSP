@@ -37,8 +37,8 @@ function Start() {
 
   return (
     <div className='content startDiv' style={{left:0,top:0,display: 'flex' ,  flexDirection:"column",  justifyContent:'center',    alignItems:'center',backgroundColor:Colors.SemiDarkColor, width:"100vw",height:"100vh"}}>
-        <img className="startButton" src={startImg} style={{width:"20%", borderRadius:"70%"}}/>
-        <Button className='buttonSemiLight' sx={{fontSize:"18px",padding:'5px 15px 5px 15px'}} onClick={async (e)=>{e.preventDefault();await slideAllElementToLeft(Colors.DarkColor);setPage(Pages.play)}}>Start workout</Button>
+        <img className="startButton" src={startImg} onClick={async (e)=>{e.preventDefault();await slideAllElementToLeft(Colors.DarkColor);setPage(Pages.play)}} style={{width:"30%", borderRadius:"70%"}}/>
+        <Button className='buttonSemiLight' sx={{fontSize:"24px",padding:'5px 15px 5px 15px'}} onClick={async (e)=>{e.preventDefault();await slideAllElementToLeft(Colors.DarkColor);setPage(Pages.play)}}>Start workout</Button>
     </div>
   )
 }

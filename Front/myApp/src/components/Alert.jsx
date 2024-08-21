@@ -37,8 +37,8 @@ const AlertCustome = ({title,text,state}) => {
           }
         >
           <div>
-            <div>{title}</div>
-            <Typography level="body-sm" color={state.color} textAlign={'center'}>
+            <div style={{fontSize:'30px',fontWeight:600}}>{title}</div>
+            <Typography level="body-lg" color={state.color} textAlign={'center'} sx={{fontSize:'25px',fontWeight:600}}>
               {text}
             </Typography>
           </div>

@@ -3,7 +3,7 @@ import { Button } from '@mui/material';
 import WorkoutCard from '../components/WorkoutCard';
 import { Colors, Pages } from '../data/constants';
 import { Sleep, calculateCaloriesBurned, calculateSpeed, slideAllElementToLeft } from '../utils';
-import { ClearObjBox, setPage } from '../App';
+import { ClearObjBox, SetAlert, setPage } from '../App';
 import CheerUp from '../components/CheerUp';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import VolumeDownIcon from '@mui/icons-material/VolumeDown';
@@ -120,22 +120,22 @@ function Play() {
   return (
     <div className='content' style={{left: 0, top: 0, display: 'flex', flexDirection: "column", justifyContent: 'center', alignItems: 'center', backgroundColor: Colors.DarkColor, width: "100vw", height: "100vh", position: 'relative'}}>
       
-      <div style={{position: 'absolute', display: 'flex', flexDirection: 'column', justifyContent: 'end',position: 'absolute', bottom: '10px', right: '30px'}}>
+      <div style={{position: 'absolute', display: 'flex', flexDirection: 'column', justifyContent: 'end',position: 'absolute', bottom: '15px', right: '30px'}}>
         <WorkoutCard title={"Workout timer"} percent={0}  describe={formatTime(time)} color={'buttonSemiLight'} SX={{ height: '80px'}}/>
-        <WorkoutCard title={"Distance till next achivment"} percent={currentAchivment+0.01} describe={`${nextAchivmentDistance}m`} color={'buttonSemiLight'} SX={{width: '200px', height: '80px'}} />
+        <WorkoutCard title={"Distance till next achivment"} percent={currentAchivment+0.01} describe={`${nextAchivmentDistance}m`} color={'buttonSemiLight'} SX={{width: '200px', height: '120px'}} />
       </div>
       
       <AchivmentsBar achhivments={achivments}/>
       <div style={{ top: '20px', right: '20px', position: 'absolute',alignItems:'center', display:'inline-flex'}}>
-        <Button className='buttonLight' sx={{ marginLeft: '10px' }} onClick={handleVolumeDown}><VolumeDownIcon/></Button>
-        <Button className='buttonLight' sx={{ marginLeft: '10px' }} onClick={handleVolumeUp}><VolumeUpIcon/></Button>
-        <Button className='buttonLight' sx={{marginLeft: '10px'}} onClick={(e)=>{e.preventDefault();isRunning ? stopStopper() : startStopper();}}>{isRunning ? 'Stop' : 'Start'}</Button>
-        <Button className='buttonLight' sx={{marginLeft: '10px'}} onClick={async (e)=>{e.preventDefault();ClearObjBox();stopStopper();await slideAllElementToLeft(Colors.SemiDarkColor);setPage(Pages.summary)}}>End workout</Button>
+        <Button className='buttonLight' sx={{ marginLeft: '10px',padding:'14px' ,fontWeight:600,fontSize:'18px'}} onClick={handleVolumeDown}><VolumeDownIcon/></Button>
+        <Button className='buttonLight' sx={{ marginLeft: '10px',padding:'14px' ,fontWeight:600,fontSize:'18px'}} onClick={handleVolumeUp}><VolumeUpIcon/></Button>
+        <Button className='buttonYellow' sx={{marginLeft: '10px',padding:'10px',fontWeight:600,fontSize:'18px'}} onClick={(e)=>{e.preventDefault();isRunning ? stopStopper() : startStopper();}}>{isRunning ? 'Stop' : 'Resume'}</Button>
+        <Button className='buttonRed' sx={{marginLeft: '10px',padding:'10px',fontWeight:600,fontSize:'18px'}} onClick={async (e)=>{e.preventDefault();ClearObjBox();stopStopper();await slideAllElementToLeft(Colors.SemiDarkColor);setPage(Pages.summary)}}>End workout</Button>
       </div>
 
       <div>
 
-      <div className="App" style={{top: '12%',left:'25%', position: 'absolute'}}>
+      <div className="App" style={{display:'flex', justifyContent:'center',alignContent:'center'}}>
             <ImageRevealer ref={ImageReveal}/>
         </div>
 
@@ -143,9 +143,9 @@ function Play() {
 
       <div style={{position: 'absolute', left: '1vw', bottom: "0", height:'100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between',alignItems:'center'}}>
         <WorkoutCard title={"Total distance"} percent={0} describe={`${totalCycles} m`} color={'buttonSemiLight'} SX={{width: '170px', height: '80px'}} />
-        <WorkoutCard title={"Speed"} percent={0} describe={`${speed.toFixed(1)} Km/H`} color={'buttonSemiLight'} SX={{width: '170px', height: '80px'}} />
+        <WorkoutCard title={"Current Speed"} percent={0} describe={`${speed.toFixed(1)} Km/H`} color={'buttonSemiLight'} SX={{width: '170px', height: '80px'}} />
         <WorkoutCard title={"Average speed"} percent={0} describe={`${avgSpeed.toFixed(2)} Km/H`} color={'buttonSemiLight'} SX={{width: '170px', height: '80px'}} />
-        <WorkoutCard title={"Calories"} percent={0} describe={`${calories.toFixed(1)} Cal`} color={'buttonSemiLight'} SX={{width: '170px', height: '80px'}} />
+        <WorkoutCard title={"Calories"} percent={0} describe={`${calories.toFixed(2)} Cal`} color={'buttonSemiLight'} SX={{width: '170px', height: '80px'}} />
       </div>
     </div>
   )
