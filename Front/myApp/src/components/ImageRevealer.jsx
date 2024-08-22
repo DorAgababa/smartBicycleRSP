@@ -19,8 +19,7 @@ const  getRandomImage = async (imagePaths, pickedImages) => {
     // Pick a random image from available images
     const randomIndex = Math.floor(Math.random() * availableImages.length);
     let path = availableImages[randomIndex]
-    // imagePaths = path.replace("..","/src")
-    imagePaths = path.replace("..","/home/pedals/Desktop/smartBicycleRSP/Front/myApp/src")
+    imagePaths = path.replace("..","/src")
     return imagePaths;
   };
 

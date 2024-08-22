@@ -15,12 +15,17 @@
         "open": true
       },
       "protocol": {
-        "asset": true,
-        "assetScope": ["dist/assets/*","**"]
+        "asset": true
       },
       "path": {
         "all": true
-      }
+      },
+      "fs": {
+    "all": true 
+  },
+  "http": {
+    "all": true 
+  }
     },
     "windows": [
       {
