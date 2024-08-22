@@ -20,13 +20,6 @@ const  getRandomImage = async (imagePaths, pickedImages) => {
     const randomIndex = Math.floor(Math.random() * availableImages.length);
     let path = availableImages[randomIndex]
     imagePaths = path.replace("..","/src")
-    //only in build  uncomment line below ###########################################
-    // const appDataDirPath = await appDataDir();
-    // path = path.split('/')
-    // let img_name = path[path.length -1]
-    // let filePath = await join(appDataDirPath, `assets/${img_name}`);
-    // const assetUrl = convertFileSrc(filePath);
-    // SetAlert(assetUrl,"")
     return imagePaths;
   };
 

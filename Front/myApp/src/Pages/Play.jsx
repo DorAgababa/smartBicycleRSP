@@ -7,13 +7,12 @@ import { ClearObjBox, SetAlert, setPage } from '../App';
 import CheerUp from '../components/CheerUp';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import VolumeDownIcon from '@mui/icons-material/VolumeDown';
-import ssMus from '../music/daa.wav';
 import AchivmentsBar from '../components/AchivmentsBar';
 import { State } from '../components/Alert';
 import { connectWebSocket, pauseCounter, releaseCounter, resetCounter } from '../webSocket';
 import { socket, totalCycles } from './Start';
 import ImageRevealer from '../components/ImageRevealer';
-import imgg from '../images/start_button.png'
+import audio1 from '../music/audio1.mp3'
 
 export let achivments = [];
 export let speed = 0;
@@ -24,6 +23,7 @@ export let highestSpeed = 0;
 export let speedArray = [0];
 let lastCyclesCounter = 0; 
 let nextAchivmentDistance = 0;
+const audioFiles = [];
 
 function Play() {
   let distances = [500,750,1500,2500,3500 ]
@@ -79,7 +79,7 @@ function Play() {
     calories = calculateCaloriesBurned(80,(time / 1000 / 60 / 60) % 24 ,avgSpeed)
     earlyActivityFinishCheck();
     if((totalCycles - distances[achivments.length]) >= 0){
-      CheerUp(`Well done for doing ${distances[achivments.length]} Meters !`,"")
+      CheerUp(`Well done for doing ${distances[achivments.length]} Meters !`,audioFiles[achivments.length])
       passedDistanceAchivemnts += distances[achivments.length]
       achivments.push(State.warning.color)
       currentAchivment = 0.01
@@ -113,6 +113,14 @@ function Play() {
     resetCounter(socket);
     startStopper();
     setTime(0)
+    const loadAudioFiles = async () => {
+      for (let i = 1; i <= 6; i++) {
+        const audio = await import(`../music/audio${i}.mp3`);
+        audioFiles.push(audio.default);
+      }
+    };
+
+    loadAudioFiles();
     achivments=[]
     return () => clearInterval(intervalRef.current); // Clean up by clearing the interval when the component unmounts
   },[]);
