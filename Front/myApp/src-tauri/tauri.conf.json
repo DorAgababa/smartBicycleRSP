@@ -16,7 +16,7 @@
       },
       "protocol": {
         "asset": true,
-        "assetScope": ["dist/assets/*"]
+        "assetScope": ["dist/assets/*","**"]
       },
       "path": {
         "all": true
@@ -35,7 +35,7 @@
       }
     ],
     "security": {
-    "csp": null
+    "csp": "default-src 'self'; img-src 'self' asset: https://asset.localhost"
     },
     "bundle": {
       "active": true,

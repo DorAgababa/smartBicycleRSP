@@ -2,6 +2,9 @@ import React, { useState, useEffect, useRef,forwardRef, useImperativeHandle } fr
 import '../ImageReveal.css';
 import { appDataDir, join } from '@tauri-apps/api/path';
 import { convertFileSrc } from '@tauri-apps/api/tauri';
+import zIndex from '@mui/material/styles/zIndex';
+import { relaunch } from '@tauri-apps/api/process';
+import { SetAlert } from '../App';
 
 const  getRandomImage = async (imagePaths, pickedImages) => {
     // Filter out picked images
@@ -18,12 +21,13 @@ const  getRandomImage = async (imagePaths, pickedImages) => {
     let path = availableImages[randomIndex]
     imagePaths = path.replace("..","/src")
     //only in build  uncomment line below ###########################################
-    const appDataDirPath = await appDataDir();
-    path = path.split('/')
-    let img_name = path[path.length -1]
-    let filePath = await join(appDataDirPath, `assets/${img_name}`);
-    const assetUrl = convertFileSrc(filePath);
-    return assetUrl;
+    // const appDataDirPath = await appDataDir();
+    // path = path.split('/')
+    // let img_name = path[path.length -1]
+    // let filePath = await join(appDataDirPath, `assets/${img_name}`);
+    // const assetUrl = convertFileSrc(filePath);
+    // SetAlert(assetUrl,"")
+    return imagePaths;
   };
 
 let images
@@ -81,6 +85,7 @@ const ImageRevealer = forwardRef((props,ref) => {
     <div className="container">
       <img src={imageSrc} alt="Your Image" className="image" />
       <div className="grid-overlay"></div>
+      <button style={{zIndex:5,position:'relative',top:0}} onClick={revealDiv}>HELLO</button>
     </div>
   );
 });
