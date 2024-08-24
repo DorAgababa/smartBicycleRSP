@@ -130,8 +130,8 @@ function Play() {
       
       <div style={{position: 'absolute', display: 'flex', flexDirection: 'column', justifyContent: 'end',position: 'absolute', bottom: '15px', right: '30px'}}>
         <WorkoutCard title={"Total distance"} percent={0} describe={`${totalCycles.toFixed(1)} m`} color={'buttonSemiLight'} SX={{width: '210px', height: '80px'}} />
-        <WorkoutCard title={"Workout timer"} percent={0}  describe={formatTime(time)} color={'buttonSemiLight'} SX={{ width: '210px',height: '80px'}}/>
-        <WorkoutCard title={"Distance till next achivment"} percent={currentAchivment+0.01} describe={`${nextAchivmentDistance.toFixed(1)}m`} color={'buttonSemiLight'} SX={{width: '210px', height: '120px'}} />
+        <WorkoutCard title={"Workout timer"} percent={0}  describe={formatTime(time)} color={'buttonSemiLight'} SX={{ width: '210px',height: '80px',marginTop:'25px'}}/>
+        <WorkoutCard title={"Distance till next achivment"} percent={currentAchivment+0.01} describe={`${nextAchivmentDistance.toFixed(1)}m`} color={'buttonSemiLight'} SX={{width: '210px', height: '120px',marginTop:'25px'}} />
       </div>
       
       <AchivmentsBar achhivments={achivments}/>
