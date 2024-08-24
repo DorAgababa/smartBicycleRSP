@@ -17,6 +17,7 @@ import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
 export let socket = null;
 export let totalCycles = 0;
+export let saved_cyclesss = 0;
 let currentTime;
 
 function Start() {
@@ -29,6 +30,7 @@ function Start() {
   radiusValue += 5;
   wheelRadiusElement.textContent = radiusValue;
   setWheelDiameter(3.14*(radiusValue/100))
+  wheelParameterSaved = wheelDiameter
   }
   
   function shrinkWheel(){
@@ -38,6 +40,7 @@ function Start() {
   radiusValue -= 5;
   wheelRadiusElement.textContent = radiusValue;
   setWheelDiameter(3.14*(radiusValue/100))
+  wheelParameterSaved = wheelDiameter
   }
 
   useEffect(() => {
@@ -47,10 +50,12 @@ function Start() {
     resetCounter(socket);
     socket.onmessage = async function(event) {
       totalCycles = JSON.parse(event.data).data * wheelDiameter; 
+      saved_cyclesss = JSON.parse(event.data).data
       if(totalCycles>=2 && document.querySelector('.startDiv')){
-        if (Date.now()-elapsedTime >= 5000) {
+        if (Date.now()-elapsedTime >= 3000) {
           currentTime = Date.now();
           totalCycles = 0;
+          saved_cyclesss = 0;
         } else {
           await slideAllElementToLeft(Colors.DarkColor);setPage(Pages.play)
         }

@@ -10,7 +10,7 @@ import VolumeDownIcon from '@mui/icons-material/VolumeDown';
 import AchivmentsBar from '../components/AchivmentsBar';
 import { State } from '../components/Alert';
 import { connectWebSocket, pauseCounter, releaseCounter, resetCounter } from '../webSocket';
-import { socket, totalCycles } from './Start';
+import { socket, totalCycles, saved_cyclesss } from './Start';
 import ImageRevealer from '../components/ImageRevealer';
 import audio1 from '../music/audio1.mp3'
 
@@ -129,6 +129,7 @@ function Play() {
     <div className='content' style={{left: 0, top: 0, display: 'flex', flexDirection: "column", justifyContent: 'center', alignItems: 'center', backgroundColor: Colors.DarkColor, width: "100vw", height: "100vh", position: 'relative'}}>
       
       <div style={{position: 'absolute', display: 'flex', flexDirection: 'column', justifyContent: 'end',position: 'absolute', bottom: '15px', right: '30px'}}>
+        <WorkoutCard title={"Total distance"} percent={0} describe={`${totalCycles.toFixed(1)} m`} color={'buttonSemiLight'} SX={{width: '210px', height: '80px'}} />
         <WorkoutCard title={"Workout timer"} percent={0}  describe={formatTime(time)} color={'buttonSemiLight'} SX={{ width: '210px',height: '80px'}}/>
         <WorkoutCard title={"Distance till next achivment"} percent={currentAchivment+0.01} describe={`${nextAchivmentDistance.toFixed(1)}m`} color={'buttonSemiLight'} SX={{width: '210px', height: '120px'}} />
       </div>
@@ -150,10 +151,10 @@ function Play() {
       </div>
 
       <div style={{position: 'absolute', left: '1vw', bottom: "0", height:'100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between',alignItems:'center'}}>
-        <WorkoutCard title={"Total distance"} percent={0} describe={`${totalCycles.toFixed(1)} m`} color={'buttonSemiLight'} SX={{width: '170px', height: '80px'}} />
-        <WorkoutCard title={"Current Speed"} percent={0} describe={`${speed.toFixed(1)} Km/H`} color={'buttonSemiLight'} SX={{width: '170px', height: '80px'}} />
-        <WorkoutCard title={"Average speed"} percent={0} describe={`${avgSpeed.toFixed(2)} Km/H`} color={'buttonSemiLight'} SX={{width: '170px', height: '80px'}} />
-        <WorkoutCard title={"Calories"} percent={0} describe={`${calories.toFixed(2)} Cal`} color={'buttonSemiLight'} SX={{width: '170px', height: '80px'}} />
+        <WorkoutCard title={"Total cycles"} percent={0} describe={`${saved_cyclesss}`} color={'buttonSemiLight'} SX={{width: '185px', height: '80px'}} />
+        <WorkoutCard title={"Current Speed"} percent={0} describe={`${speed.toFixed(1)} Km/H`} color={'buttonSemiLight'} SX={{width: '185px', height: '80px'}} />
+        <WorkoutCard title={"Average speed"} percent={0} describe={`${avgSpeed.toFixed(2)} Km/H`} color={'buttonSemiLight'} SX={{width: '185px', height: '80px'}} />
+        <WorkoutCard title={"Calories"} percent={0} describe={`${calories.toFixed(2)} Cal`} color={'buttonSemiLight'} SX={{width: '185px', height: '80px'}} />
       </div>
     </div>
   )
