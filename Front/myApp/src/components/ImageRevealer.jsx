@@ -78,7 +78,7 @@ const ImageRevealer = forwardRef((props,ref) => {
     <div className="container">
       <img src={imageSrc} alt="Your Image" className="image" />
       <div className="grid-overlay"></div>
-      <button style={{zIndex:5,position:'relative',top:0}} onClick={revealDiv}>HELLO</button>
+      {/* <button style={{zIndex:5,position:'relative',top:0}} onClick={revealDiv}>HELLO</button> */}
     </div>
   );
 });

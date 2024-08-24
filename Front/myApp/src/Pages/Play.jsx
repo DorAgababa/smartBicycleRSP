@@ -88,7 +88,7 @@ function Play() {
     {
       currentAchivment = (totalCycles / distances[achivments.length])*100
     }
-    if(nextAchivmentDistance!=Math.abs((totalCycles - distances[achivments.length])))
+    if(nextAchivmentDistance!=Math.abs((totalCycles - distances[achivments.length])) && isRunning)
       handleTriggerReveal();
     nextAchivmentDistance = Math.abs((totalCycles - distances[achivments.length]))
     totalTime = `${hours}:${minutes}:${seconds}`;
