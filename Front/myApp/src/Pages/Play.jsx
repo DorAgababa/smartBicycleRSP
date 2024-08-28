@@ -138,7 +138,7 @@ function Play() {
       <div style={{ top: '20px', right: '20px', position: 'absolute',alignItems:'center', display:'inline-flex'}}>
         <Button className='buttonLight' sx={{ marginLeft: '10px',padding:'14px' ,fontWeight:600,fontSize:'18px'}} onClick={handleVolumeDown}><VolumeDownIcon/></Button>
         <Button className='buttonLight' sx={{ marginLeft: '10px',padding:'14px' ,fontWeight:600,fontSize:'18px'}} onClick={handleVolumeUp}><VolumeUpIcon/></Button>
-        <Button className='buttonYellow' sx={{marginLeft: '10px',padding:'10px',fontWeight:600,fontSize:'18px'}} onClick={(e)=>{e.preventDefault();isRunning ? stopStopper() : startStopper();}}>{isRunning ? 'Stop' : 'Resume'}</Button>
+        <Button className='buttonYellow' sx={{marginLeft: '10px',padding:'10px',fontWeight:600,fontSize:'18px'}} onClick={(e)=>{e.preventDefault();isRunning ? stopStopper() : startStopper();}}>{isRunning ? 'Pause' : 'Resume'}</Button>
         <Button className='buttonRed' sx={{marginLeft: '10px',padding:'10px',fontWeight:600,fontSize:'18px'}} onClick={async (e)=>{e.preventDefault();ClearObjBox();stopStopper();await slideAllElementToLeft(Colors.SemiDarkColor);setPage(Pages.summary)}}>End workout</Button>
       </div>
 
