@@ -75,6 +75,7 @@ function Play() {
     speed = calculateSpeed(cyclesDuringLastSecond,"15",1) //the speed of the last second
     avgSpeed = calculateSpeed(totalCycles,"15",time / 1000)
     if(speed>highestSpeed)highestSpeed = speed
+    if(Math.floor((time / 1000) % 60) % 10 == 0 && isNaN(speed))speedArray.push(0)
     if( Math.floor((time / 1000) % 60) % 10 == 0 && !isNaN(speed))speedArray.push(speed)
     calories = calculateCaloriesBurned(80,(time / 1000 / 60 / 60) % 24 ,avgSpeed)
     earlyActivityFinishCheck();
@@ -113,6 +114,7 @@ function Play() {
     resetCounter(socket);
     startStopper();
     setTime(0)
+    speedArray=[]
     const loadAudioFiles = async () => {
       for (let i = 1; i <= 6; i++) {
         const audio = await import(`../music/audio${i}.mp3`);
@@ -131,7 +133,7 @@ function Play() {
       <div style={{position: 'absolute', display: 'flex', flexDirection: 'column', justifyContent: 'end',position: 'absolute', bottom: '15px', right: '30px'}}>
         <WorkoutCard title={"Total distance"} percent={0} describe={`${totalCycles.toFixed(1)} m`} color={'buttonSemiLight'} SX={{width: '210px', height: '80px'}} />
         <WorkoutCard title={"Workout timer"} percent={0}  describe={formatTime(time)} color={'buttonSemiLight'} SX={{ width: '210px',height: '80px',marginTop:'25px'}}/>
-        <WorkoutCard title={"Distance till next achivment"} percent={currentAchivment+0.01} describe={`${nextAchivmentDistance.toFixed(1)}m`} color={'buttonSemiLight'} SX={{width: '210px', height: '120px',marginTop:'25px'}} />
+        <WorkoutCard title={"Distance till next Achievement"} percent={currentAchivment+0.01} describe={`${nextAchivmentDistance.toFixed(1)}m`} color={'buttonSemiLight'} SX={{width: '210px', height: '120px',marginTop:'25px'}} />
       </div>
       
       <AchivmentsBar achhivments={achivments}/>
@@ -139,7 +141,7 @@ function Play() {
         <Button className='buttonLight' sx={{ marginLeft: '10px',padding:'14px' ,fontWeight:600,fontSize:'18px'}} onClick={handleVolumeDown}><VolumeDownIcon/></Button>
         <Button className='buttonLight' sx={{ marginLeft: '10px',padding:'14px' ,fontWeight:600,fontSize:'18px'}} onClick={handleVolumeUp}><VolumeUpIcon/></Button>
         <Button className='buttonYellow' sx={{marginLeft: '10px',padding:'10px',fontWeight:600,fontSize:'18px'}} onClick={(e)=>{e.preventDefault();isRunning ? stopStopper() : startStopper();}}>{isRunning ? 'Pause' : 'Resume'}</Button>
-        <Button className='buttonRed' sx={{marginLeft: '10px',padding:'10px',fontWeight:600,fontSize:'18px'}} onClick={async (e)=>{e.preventDefault();ClearObjBox();stopStopper();await slideAllElementToLeft(Colors.SemiDarkColor);setPage(Pages.summary)}}>End workout</Button>
+        <Button className='buttonEnd' sx={{marginLeft: '10px',padding:'10px',fontWeight:600,fontSize:'18px'}} onClick={async (e)=>{e.preventDefault();ClearObjBox();stopStopper();await slideAllElementToLeft(Colors.SemiDarkColor);setPage(Pages.summary)}}>End workout</Button>
       </div>
 
       <div>

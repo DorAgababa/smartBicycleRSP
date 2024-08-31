@@ -8,6 +8,7 @@ import startImg from '../images/start_button.png';
 import { setPage } from '../App';
 import { Colors, Pages } from '../data/constants';
 import { connectWebSocket, resetCounter } from '../webSocket';
+import { slideAllElementToLeft } from '../utils';
 
 export let socket = null;
 export let totalCycles = 0;

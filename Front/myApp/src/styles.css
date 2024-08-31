@@ -50,6 +50,12 @@ button {
   color: black !important;
 }
 
+.buttonEnd{
+  background-color: rgb(175, 4, 4) !important;
+  transform: scale(0.98);
+  color: white !important;
+}
+
 .buttonYellow {
   background-color: rgb(175, 158, 4) !important;
   transform: scale(0.98);
