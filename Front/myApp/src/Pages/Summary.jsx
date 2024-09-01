@@ -16,17 +16,17 @@ import { LineChart } from '@mui/x-charts/LineChart';
 import { resetCounter } from '../webSocket';
 import { calories, highestSpeed, avgSpeed, speedArray, totalTime } from './Play';
 import { Typography } from '@mui/joy';
-import { saved_cyclesss, socket, totalCycles } from './Start';
+import { totalCycles, socket, totalDistance, resetCounters } from './Start';
 
 function Summary() {
   return (
     <div className='content' style={{left:0,top:0,display: 'flex' ,  flexDirection:"column",  justifyContent:'center',    alignItems:'center',backgroundColor:Colors.SemiDarkColor, width:"100vw",height:"100vh"}}>
       <div style={{position: 'absolute', left: '10vw', top: "2vh", width: '80vw', display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
         <WorkoutCard title={"Total Time"} percent={0} describe={`${totalTime}`} color={'buttonLight'} SX={{width: '250px', height: '100px'}} />
-        <WorkoutCard title={"Total Distance"} percent={0} describe={`${(totalCycles/1000).toFixed(1)} Km`} color={'buttonLight'} SX={{width: '250px', height: '100px'}} />
+        <WorkoutCard title={"Total Distance"} percent={0} describe={`${(totalDistance/1000).toFixed(1)} Km`} color={'buttonLight'} SX={{width: '250px', height: '100px'}} />
         <WorkoutCard title={"Average Speed"} percent={0} describe={`${avgSpeed.toFixed(2)} Km/H`} color={'buttonLight'} SX={{width: '290px', height: '100px'}} />
         <WorkoutCard title={"Total calories Burned"} percent={0} describe={`${calories.toFixed(1)} Cal`} color={'buttonLight'} SX={{width: '270px', height: '100px'}} />
-        <WorkoutCard title={"Total cycles"} percent={0} describe={`${saved_cyclesss}`} color={'buttonLight'} SX={{width: '250px', height: '100px'}} />
+        <WorkoutCard title={"Total cycles"} percent={0} describe={`${totalCycles}`} color={'buttonLight'} SX={{width: '250px', height: '100px'}} />
       </div>
       <div style={{position: 'absolute', left: '10vw', bottom: "2vh", width: '80vw', display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>
       <div style={{position:'relative',display:'flex',justifyContent:'center',flexDirection:'column',paddingTop:'15px',background: Colors.LightColor, borderRadius: '20px'}}>
@@ -55,8 +55,8 @@ function Summary() {
     />
       </div>
     <div style={{ alignItems:'center', display:'flex', flexDirection:'column',justifyContent:'center'}}>
-        <Button className='buttonSemiLight' sx={{fontSize: '24px',fontWeight:'600',padding:'10px', marginBottom:'10px'}} onClick={async (e)=>{e.preventDefault();await slideAllElementToLeft(Colors.DarkColor);resetCounter(socket);setPage(Pages.play)}}>Restart Workout</Button>
-        <Button className='buttonSemiLight' sx={{fontSize: '24px',fontWeight:'600',padding:'10px'}} onClick={async (e)=>{e.preventDefault();resetCounter(socket);await slideAllElementToLeft(Colors.DarkColor);setPage(Pages.start)}}>End</Button>
+        <Button className='buttonSemiLight' sx={{fontSize: '24px',fontWeight:'600',padding:'10px', marginBottom:'10px'}} onClick={async (e)=>{e.preventDefault();await slideAllElementToLeft(Colors.DarkColor);resetCounter(socket);resetCounters();setPage(Pages.play)}}>Restart Workout</Button>
+        <Button className='buttonSemiLight' sx={{fontSize: '24px',fontWeight:'600',padding:'10px'}} onClick={async (e)=>{e.preventDefault();resetCounter(socket);resetCounters();await slideAllElementToLeft(Colors.DarkColor);setPage(Pages.start)}}>End</Button>
       </div>
 
       </div>

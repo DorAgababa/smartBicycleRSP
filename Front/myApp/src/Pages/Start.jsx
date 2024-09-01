@@ -11,11 +11,16 @@ import { connectWebSocket, resetCounter } from '../webSocket';
 import { slideAllElementToLeft } from '../utils';
 
 export let socket = null;
+export let totalDistance = 0;
 export let totalCycles = 0;
-export let saved_cyclesss = 0;
-let currentTime;
+export const wheelDiameter = 0;
 
-function Start() {
+let currentTime;
+export function resetCounters(){
+  totalDistance = 0;
+  totalCycles = 0;
+}
+export function Start() {
   const [wheelDiameter, setWheelDiameter] = useState(30); // Initialize with 30 instead of 0.3
   const [open, setOpen] = useState(false);
 
@@ -39,20 +44,22 @@ function Start() {
     }
     console.log(wheelDiameter)
   }
-
+ 
+  
   useEffect(() => {
     currentTime = Date.now();
     if (socket == null)
       socket = connectWebSocket();
     resetCounter(socket);
+    resetCounters();
     socket.onmessage = async function (event) {
-      totalCycles = JSON.parse(event.data).data * (3.14 * (wheelDiameter / 100)); 
-      saved_cyclesss = JSON.parse(event.data).data;
+      totalDistance = JSON.parse(event.data).data * (3.14 * (wheelDiameter / 100)); 
+      totalCycles = JSON.parse(event.data).data;
       if (totalCycles >= 2 && document.querySelector('.startDiv')) {
         if (Date.now() - elapsedTime >= 3000) {
           currentTime = Date.now();
+          totalDistance = 0;
           totalCycles = 0;
-          saved_cyclesss = 0;
         } else {
           await slideAllElementToLeft(Colors.DarkColor);
           setPage(Pages.play);
@@ -97,5 +104,5 @@ function Start() {
     </div>
   );
 }
+export default  Start;
 
-export default Start;
