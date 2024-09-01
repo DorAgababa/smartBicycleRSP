@@ -130,7 +130,7 @@ function Play() {
   return (
     <div className='content' style={{left: 0, top: 0, display: 'flex', flexDirection: "column", justifyContent: 'center', alignItems: 'center', backgroundColor: Colors.DarkColor, width: "100vw", height: "100vh", position: 'relative'}}>
       
-      <div style={{position: 'absolute', display: 'flex', flexDirection: 'column', justifyContent: 'end',position: 'absolute', bottom: '15px', right: '30px'}}>
+      <div style={{position: 'absolute', display: 'flex', flexDirection: 'column', justifyContent: 'space-between',position: 'absolute', bottom: '20px', right: '1vw'}}>
         <WorkoutCard title={"Total distance"} percent={0} describe={`${totalCycles.toFixed(1)} m`} color={'buttonSemiLight'} SX={{width: '210px', height: '80px'}} />
         <WorkoutCard title={"Workout timer"} percent={0}  describe={formatTime(time)} color={'buttonSemiLight'} SX={{ width: '210px',height: '80px',marginTop:'25px'}}/>
         <WorkoutCard title={"Distance till next Achievement"} percent={currentAchivment+0.01} describe={`${nextAchivmentDistance.toFixed(1)}m`} color={'buttonSemiLight'} SX={{width: '210px', height: '120px',marginTop:'25px'}} />
@@ -152,7 +152,7 @@ function Play() {
 
       </div>
 
-      <div style={{position: 'absolute', left: '1vw', bottom: "0", height:'100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between',alignItems:'center'}}>
+      <div style={{position: 'absolute', left: '1vw', bottom: "20px", height:'90%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between',alignItems:'center'}}>
         <WorkoutCard title={"Total cycles"} percent={0} describe={`${saved_cyclesss}`} color={'buttonSemiLight'} SX={{width: '185px', height: '80px'}} />
         <WorkoutCard title={"Current Speed"} percent={0} describe={`${speed.toFixed(1)} Km/H`} color={'buttonSemiLight'} SX={{width: '185px', height: '80px'}} />
         <WorkoutCard title={"Average speed"} percent={0} describe={`${avgSpeed.toFixed(2)} Km/H`} color={'buttonSemiLight'} SX={{width: '185px', height: '80px'}} />
