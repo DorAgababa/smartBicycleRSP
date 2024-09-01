@@ -10,7 +10,7 @@ import VolumeDownIcon from '@mui/icons-material/VolumeDown';
 import AchivmentsBar from '../components/AchivmentsBar';
 import { State } from '../components/Alert';
 import { connectWebSocket, pauseCounter, releaseCounter, resetCounter } from '../webSocket';
-import { socket, totalDistance, totalCycles, wheelDiameter } from './Start';
+import { socket, totalDistance, totalCycles, wheelDiameterCm } from './Start';
 import ImageRevealer from '../components/ImageRevealer';
 import audio1 from '../music/audio1.mp3'
 
@@ -72,8 +72,8 @@ function Play() {
     const hours = `0${Math.floor((time / 1000 / 60 / 60) % 24)}`.slice(-2);
     let cyclesDuringLastSecond = totalCycles - lastCyclesCounter;
     lastCyclesCounter = totalCycles;
-    speed = calculateSpeed(cyclesDuringLastSecond,wheelDiameter,1) //the speed of the last second
-    avgSpeed = calculateSpeed(totalCycles,wheelDiameter,time / 1000)
+    speed = calculateSpeed(cyclesDuringLastSecond,wheelDiameterCm,1) //the speed of the last second
+    avgSpeed = calculateSpeed(totalCycles,wheelDiameterCm,time / 1000)
     if(speed>highestSpeed)highestSpeed = speed
     if(Math.floor((time / 1000) % 60) % 10 == 0 && isNaN(speed))speedArray.push(0)
     if( Math.floor((time / 1000) % 60) % 10 == 0 && !isNaN(speed))speedArray.push(speed)

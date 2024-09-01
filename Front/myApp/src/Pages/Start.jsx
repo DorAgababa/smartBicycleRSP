@@ -13,15 +13,17 @@ import { slideAllElementToLeft } from '../utils';
 export let socket = null;
 export let totalDistance = 0;
 export let totalCycles = 0;
-export const wheelDiameter = 0;
+export let wheelDiameterCm = 0;
 
 let currentTime;
 export function resetCounters(){
   totalDistance = 0;
   totalCycles = 0;
 }
+
 export function Start() {
   const [wheelDiameter, setWheelDiameter] = useState(30); // Initialize with 30 instead of 0.3
+
   const [open, setOpen] = useState(false);
 
   function handleClickOpen() {
@@ -31,20 +33,22 @@ export function Start() {
   function handleClose() {
     setOpen(false);
   }
-
   function growWheel() {
     if (wheelDiameter < 150) {
       setWheelDiameter(wheelDiameter + 5);
     }
   }
-
+  
   function shrinkWheel() {
     if (wheelDiameter > 5) {
       setWheelDiameter(wheelDiameter - 5);
     }
     console.log(wheelDiameter)
   }
- 
+  useEffect(() => {
+    // Synchronize wheelDiameterCm with wheelDiameter
+    wheelDiameterCm = wheelDiameter;
+  }, [wheelDiameter]); // Only run this effect when wheelDiameter changes
   
   useEffect(() => {
     currentTime = Date.now();
@@ -53,7 +57,7 @@ export function Start() {
     resetCounter(socket);
     resetCounters();
     socket.onmessage = async function (event) {
-      totalDistance = JSON.parse(event.data).data * (3.14 * (wheelDiameter / 100)); 
+      totalDistance = JSON.parse(event.data).data * (3.14 * (10 / 100)); 
       totalCycles = JSON.parse(event.data).data;
       if (totalCycles >= 2 && document.querySelector('.startDiv')) {
         if (Date.now() - elapsedTime >= 3000) {
