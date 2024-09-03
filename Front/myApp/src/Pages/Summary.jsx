@@ -47,7 +47,7 @@ function Summary() {
           valueFormatter: (value) => value.toFixed(1).toString() + " Km/H",
         },
       ]}
-      xAxis = {[{ data: speedArray.map((_, index) => index + 1), scaleType: 'linear' ,label:"time (10s cycle)"}]}
+      xAxis = {[{ data: speedArray.map((_, index) => index + 1), scaleType: 'linear' ,label:"Time (10s scale)"}]}
       yAxis=  {[{ label:"Speed"}]}
       width={600}
       height={300}
