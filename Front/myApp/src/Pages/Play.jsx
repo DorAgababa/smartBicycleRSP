@@ -146,7 +146,7 @@ function Play() {
 
       <div>
 
-      <div className="App" style={{display:'flex', justifyContent:'center',alignContent:'center'}}>
+      <div className="App" style={{display:'flex', justifyContent:'center',alignContent:'center',bottom:"20px"}}>
             <ImageRevealer ref={ImageReveal}/>
         </div>
 
