@@ -1,11 +1,12 @@
 .container {
-    position: relative;
+    position: absolute;
     width: 450px;
     height: 450px;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    bottom: 20px;
     border: 1px solid rgba(255, 255, 255, 0.5);
   }
   
