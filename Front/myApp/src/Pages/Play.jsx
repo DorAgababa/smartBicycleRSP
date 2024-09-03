@@ -131,8 +131,8 @@ function Play() {
     <div className='content' style={{left: 0, top: 0, display: 'flex', flexDirection: "column", justifyContent: 'center', alignItems: 'center', backgroundColor: Colors.DarkColor, width: "100vw", height: "100vh", position: 'relative'}}>
       
       <div style={{position: 'absolute', display: 'flex', flexDirection: 'column', justifyContent: 'space-between',position: 'absolute', bottom: '20px', right: '1vw'}}>
-        <WorkoutCard title={"Total distance"} percent={0} describe={`${totalDistance.toFixed(1)} m`} color={'buttonSemiLight'} SX={{width: '210px', height: '80px'}} />
-        <WorkoutCard title={"Workout timer"} percent={0}  describe={formatTime(time)} color={'buttonSemiLight'} SX={{ width: '210px',height: '80px',marginTop:'25px'}}/>
+        <WorkoutCard title={"Workout timer"} percent={0} describe={formatTime(time)} color={'buttonSemiLight'} SX={{width: '210px', height: '80px'}} />
+        <WorkoutCard title={"Total distance"} percent={0}  describe={`${totalDistance.toFixed(1)} m`} color={'buttonSemiLight'} SX={{ width: '210px',height: '80px',marginTop:'25px'}}/>
         <WorkoutCard title={"Distance till next Achievement"} percent={currentAchivment+0.01} describe={`${nextAchivmentDistance.toFixed(1)}m`} color={'buttonSemiLight'} SX={{width: '210px', height: '120px',marginTop:'25px'}} />
       </div>
       
