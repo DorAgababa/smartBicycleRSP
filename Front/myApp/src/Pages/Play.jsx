@@ -98,10 +98,9 @@ function Play() {
 
   const earlyActivityFinishCheck = async () => {
     //TODO: David add kind of a message that will notify user that his activity end due to inactivity
-    const lastTenElements = speedArray.slice(-10);
-    const allZero = lastTenElements.length === 10 && lastTenElements.every(speed => speed === 0);
+    const lastTenElements = speedArray.slice(-9);
+    const allZero = lastTenElements.length === 9 && lastTenElements.every(speed => speed === 0);
     if (allZero) {
-      speedArray=[0];
       ClearObjBox();
       stopStopper();
       pauseCounter(socket);
