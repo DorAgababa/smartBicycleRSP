@@ -15,7 +15,7 @@ export let totalDistance = 0;
 export let totalCycles = 0;
 export let wheelDiameterCm = 0;
 
-let currentTime;
+let elapsedTime;
 export function resetCounters(){
   totalDistance = 0;
   totalCycles = 0;
@@ -51,7 +51,7 @@ export function Start() {
   }, [wheelDiameter]); // Only run this effect when wheelDiameter changes
   
   useEffect(() => {
-    currentTime = Date.now();
+    elapsedTime = Date.now();
     if (socket == null)
       socket = connectWebSocket();
     resetCounter(socket);
@@ -61,9 +61,9 @@ export function Start() {
       totalCycles = JSON.parse(event.data).data;
       if (totalCycles >= 2 && document.querySelector('.startDiv')) {
         if (Date.now() - elapsedTime >= 3000) {
-          currentTime = Date.now();
-          totalDistance = 0;
-          totalCycles = 0;
+          elapsedTime = Date.now();
+          resetCounter(socket);
+          resetCounters();
         } else {
           await slideAllElementToLeft(Colors.DarkColor);
           setPage(Pages.play);
