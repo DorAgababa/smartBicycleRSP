@@ -38,6 +38,7 @@ function Summary() {
           label: 'exercising',
           color:'purple',
           area: true,
+          curve: 'step',
           valueFormatter: (value) => value<2?"Break": "Exercising",
         },
         {
@@ -47,8 +48,8 @@ function Summary() {
           valueFormatter: (value) => value.toFixed(1).toString() + " Km/H",
         },
       ]}
-      xAxis = {[{ data: speedArray.map((_, index) => index + 1), scaleType: 'linear' ,label:"Time (10s scale)"}]}
-      yAxis=  {[{ label:"Speed"}]}
+      xAxis = {[{ data: speedArray.map((_, index) => index + 1), scaleType: 'linear' ,label:"Time[sec x 10]",labelStyle: { fontSize: 16 }, tickStyle: { fontSize: 16 }}]}
+      yAxis=  {[{ label:"Speed[Km/H]",labelStyle: { fontSize: 16 }, tickStyle: { fontSize: 16 }}]}
       width={600}
       height={300}
       sx={ {background: Colors.LightColor, borderRadius: '20px', padding: '5px 0 5px 0'}}
