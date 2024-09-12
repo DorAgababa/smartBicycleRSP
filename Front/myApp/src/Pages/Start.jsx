@@ -22,7 +22,10 @@ export function resetCounters(){
 }
 
 export function Start() {
-  const [wheelDiameter, setWheelDiameter] = useState(30); // Initialize with 30 instead of 0.3
+  //remember the last selected wheelDiameter or default will be 80
+  const [wheelDiameter, setWheelDiameter] = useState(() => {
+    return localStorage.getItem('wheelDiameter') ? parseInt(localStorage.getItem('wheelDiameter')) : 80;
+  });
 
   const [open, setOpen] = useState(false);
 
@@ -34,7 +37,7 @@ export function Start() {
     setOpen(false);
   }
   function growWheel() {
-    if (wheelDiameter < 150) {
+    if (wheelDiameter < 250) {
       setWheelDiameter(wheelDiameter + 5);
     }
   }
@@ -45,6 +48,10 @@ export function Start() {
     }
     console.log(wheelDiameter)
   }
+  //any change in wheel diameter will be saved to localStorage
+  useEffect(() => {
+    localStorage.setItem('wheelDiameter', wheelDiameter);
+  }, [wheelDiameter]);
   useEffect(() => {
     // Synchronize wheelDiameterCm with wheelDiameter
     wheelDiameterCm = wheelDiameter;
