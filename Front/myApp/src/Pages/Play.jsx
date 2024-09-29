@@ -77,7 +77,7 @@ function Play() {
     if(speed>highestSpeed)highestSpeed = speed
     if(Math.floor((time / 1000) % 60) % 10 == 0 && isNaN(speed))speedArray.push(0)
     if( Math.floor((time / 1000) % 60) % 10 == 0 && !isNaN(speed))speedArray.push(speed)
-    calories = calculateCaloriesBurned(80,(time / 1000 / 60 / 60) % 24 ,avgSpeed)
+    calories = speed !=0 ? calculateCaloriesBurned(80,(time / 1000 / 60 / 60) % 24 ,avgSpeed) : calories;
     earlyActivityFinishCheck();
     if((totalDistance - distances[achivments.length]) >= 0){
       CheerUp(`Well done for doing ${distances[achivments.length]} Meters !`,audioFiles[achivments.length])
