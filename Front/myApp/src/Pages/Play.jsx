@@ -26,7 +26,7 @@ let nextAchivmentDistance = 0;
 const audioFiles = [];
 
 function Play() {
-  let distances = [500,750,1500,2500,3500 ]
+  let distances = [100,300,600,1000,1250 ]
   let passedDistanceAchivemnts = 0;
   const [time, setTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
